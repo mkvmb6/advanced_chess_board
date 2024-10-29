@@ -23,31 +23,32 @@ class AdvancedChessBoard extends StatefulWidget {
 }
 
 class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
-  List<ChessPiece> pieces = [];
-  ChessPiece? selectedPiece;
+  chess.Chess game = chess.Chess();
+  List<String> legalMoves = [];
+  String? selectedSquare;
 
-
-  @override
-  void initState() {
-    super.initState();
-    _initializePieces();
-  }
-
-  void _initializePieces() {
-    pieces = [
-      ChessPiece(
-          type: PieceType.rook,
-          color: PieceColor.black,
-          position: Position(0, 0)),
-      ChessPiece(
-          type: PieceType.knight,
-          color: PieceColor.black,
-          position: Position(0, 1)),
-      ChessPiece(
-          type: PieceType.king,
-          color: PieceColor.white,
-          position: Position(1, 1)),
-    ];
+  void _handleTap(String square) {
+    setState(() {
+      if (selectedSquare == null) {
+        // Select a piece and highlight legal moves
+        selectedSquare = square;
+        legalMoves = List<String>.from(game.moves({"square": square}));
+        print(legalMoves);
+      } else if (selectedSquare == square) {
+        // Deselect if tapping on the same square
+        selectedSquare = null;
+        legalMoves = [];
+      } else {
+        // Attempt to make a move
+        String moveNotation = '$selectedSquare$square';
+        if (legalMoves
+            .any((move) => move == moveNotation || move.contains(square))) {
+          game.move({'from': selectedSquare, 'to': square});
+        }
+        selectedSquare = null;
+        legalMoves = [];
+      }
+    });
   }
 
   @override
@@ -59,26 +60,52 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
         itemBuilder: (context, index) {
-          final row = index ~/ 8;
+          final row = 7 - index ~/ 8;
           final col = index % 8;
+          final square = '${String.fromCharCode(97 + col)}${row + 1}';
           final isLightSquare = (row + col) % 2 == 0;
           final squareColor =
               isLightSquare ? widget.lightSquareColor : widget.darkSquareColor;
 
-          // Find piece on the current square
-          final piece = pieces
-              .where(
-                (p) => p.position.row == row && p.position.col == col,
-              )
-              .firstOrNull;
-
+          final isHighlighted = legalMoves.any((move) => move.contains(square));
+          final hasPiece = game.get(square) != null;
           return GestureDetector(
-            onTap: () => _handleTap(row, col),
-            child: Stack(
-              children: [
-                ChessSquare(color: squareColor),
-                if (piece != null) _buildPiece(piece),
-              ],
+            onTap: () => _handleTap(square),
+            child: LayoutBuilder(
+              builder: (ctx, constraints) {
+                final smallDotSize = constraints.maxWidth * 0.3;
+                final circleSize = constraints.maxWidth * 0.98;
+                return Stack(
+                  children: [
+                    ChessSquare(color: squareColor),
+                    if (isHighlighted)
+                      Align(
+                        alignment: Alignment.center,
+                        child: hasPiece
+                            ? Container(
+                                width: circleSize,
+                                height: circleSize,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.grey.withOpacity(0.7),
+                                    width: constraints.maxWidth * 0.1,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: smallDotSize,
+                                height: smallDotSize,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey.withOpacity(0.6),
+                                ),
+                              ),
+                      ),
+                    if (hasPiece) _buildPiece(game.get(square)!),
+                  ],
+                );
+              },
             ),
           );
         },
@@ -86,36 +113,9 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     );
   }
 
-  Widget _buildPiece(ChessPiece piece) {
+  Widget _buildPiece(chess.Piece piece) {
     return Center(
-      // child: Text(
-      //   piece.type.toString().split('.').last,
-      //   style: TextStyle(
-      //     color: piece.color == PieceColor.white ? Colors.white : Colors.black,
-      //     fontSize: 24,
-      //   ),
-      // ),
       child: getChessPieceWidget(piece),
     );
-  }
-
-  void _handleTap(int row, int col) {
-    final tappedPiece = pieces
-        .where(
-          (p) => p.position.row == row && p.position.col == col,
-        )
-        .firstOrNull;
-
-    setState(() {
-      if (selectedPiece == null) {
-        selectedPiece = tappedPiece; // Select the piece
-      } else if (selectedPiece != null && tappedPiece == null) {
-        // Move the selected piece if tapping an empty square
-        selectedPiece!.position = Position(row, col);
-        selectedPiece = null; // Deselect after moving
-      } else {
-        selectedPiece = tappedPiece; // Select a new piece
-      }
-    });
   }
 }
