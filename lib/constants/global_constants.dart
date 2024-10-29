@@ -1,0 +1,1 @@
+const String packageName = "advanced_chess_board";
