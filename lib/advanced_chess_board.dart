@@ -1,5 +1,6 @@
 library advanced_chess_board;
 
+import 'package:advanced_chess_board/chess_board_controller.dart';
 import 'package:advanced_chess_board/utils/utils.dart';
 import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class AdvancedChessBoard extends StatefulWidget {
   final Color darkSquareColor;
   final String? initialFEN;
   final chess.Color boardOrientation;
+  final ChessBoardController controller;
 
   const AdvancedChessBoard({
     super.key,
@@ -20,6 +22,7 @@ class AdvancedChessBoard extends StatefulWidget {
     this.darkSquareColor = const Color(0xFF739552),
     this.initialFEN,
     this.boardOrientation = chess.Color.WHITE,
+    required this.controller,
   });
 
   @override
@@ -27,7 +30,7 @@ class AdvancedChessBoard extends StatefulWidget {
 }
 
 class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
-  final chess.Chess game = chess.Chess();
+  late chess.Chess game;
   Set<String> legalMoves = {};
   String? selectedSquare;
   bool isPieceDragging = false;
@@ -35,6 +38,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   @override
   void initState() {
     super.initState();
+    game = widget.controller.game;
     if (widget.initialFEN != null) {
       loadFromFEN(widget.initialFEN!);
     }
