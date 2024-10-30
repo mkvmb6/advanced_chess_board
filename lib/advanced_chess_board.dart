@@ -1,5 +1,6 @@
 library advanced_chess_board;
 
+import 'package:advanced_chess_board/utils/utils.dart';
 import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -49,11 +50,27 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     return _isSquarePartOfValidMoves(validMoves, to);
   }
 
-  bool _makeMove(final String from, final String to) {
+  Future<bool> _makeMove(final String from, final String to) async {
+    if (_isPromotionMove(from, to)) {
+      final pieceType = await _showPromotionDialog(context, 60);
+      return game.move({
+        fromKey: from,
+        toKey: to,
+        promotionKey: pieceTypeToString(pieceType),
+      });
+    }
     return game.move({fromKey: from, toKey: to});
   }
 
-  GridView _buildChessBoard(double squareSize) {
+  bool _isPromotionMove(String from, String to) {
+    final piece = game.get(from);
+    return piece != null &&
+        piece.type == chess.PieceType.PAWN &&
+        ((piece.color == chess.Color.WHITE && to[1] == "8") ||
+            (piece.color == chess.Color.BLACK && to[1] == "1"));
+  }
+
+  Widget _buildChessBoard(final double squareSize) {
     return GridView.builder(
       itemCount: 64,
       gridDelegate:
@@ -71,7 +88,10 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   }
 
   Widget _buildSquareWithDragTarget(
-      final String square, final Color squareColor, final double squareSize) {
+    final String square,
+    final Color squareColor,
+    final double squareSize,
+  ) {
     final piece = game.get(square);
     final hasPiece = piece != null;
     return DragTarget<String>(
@@ -79,12 +99,11 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
         final fromSquare = data.data;
         return _isMoveValid(fromSquare, square);
       },
-      onAcceptWithDetails: (fromSquare) {
-        setState(() {
-          _makeMove(fromSquare.data, square);
-          selectedSquare = null;
-          legalMoves = {};
-        });
+      onAcceptWithDetails: (fromSquare) async {
+        await _makeMove(fromSquare.data, square);
+        selectedSquare = null;
+        legalMoves = {};
+        setState(() {});
       },
       builder: (context, candidateData, rejectedData) {
         return GestureDetector(
@@ -110,7 +129,10 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   }
 
   Widget _buildPiece(
-      final String square, final double squareSize, final chess.Piece piece) {
+    final String square,
+    final double squareSize,
+    final chess.Piece piece,
+  ) {
     return Draggable<String>(
       data: square,
       onDragStarted: () {
@@ -128,7 +150,6 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
         child: ChessPieceWidget(
           piece: piece,
           squareSize: squareSize,
-          square: square,
           isDragging: isPieceDragging,
         ),
       ),
@@ -137,9 +158,8 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
       child: ChessPieceWidget(
         piece: piece,
         squareSize: squareSize,
-        square: square,
         isDragging: isPieceDragging,
-        onTap: _handleTap,
+        onTap: () => _handleTap(square),
       ),
     );
   }
@@ -167,25 +187,24 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
             validMoves.contains("O-O-O"));
   }
 
-  void _handleTap(String square) {
-    setState(() {
-      if (selectedSquare == null ||
-          (selectedSquare != square && game.turn == game.get(square)?.color)) {
-        // Select a piece and highlight legal moves
-        _setSelectedSquareAndFindLegalMoves(square);
-      } else if (selectedSquare == square) {
-        // Deselect if tapping on the same square
-        selectedSquare = null;
-        legalMoves = {};
-      } else {
-        // Attempt to make a move
-        if (_isMoveValid(selectedSquare!, square)) {
-          _makeMove(selectedSquare!, square);
-        }
-        selectedSquare = null;
-        legalMoves = {};
+  Future<void> _handleTap(String square) async {
+    if (selectedSquare == null ||
+        (selectedSquare != square && game.turn == game.get(square)?.color)) {
+      // Select a piece and highlight legal moves
+      _setSelectedSquareAndFindLegalMoves(square);
+    } else if (selectedSquare == square) {
+      // Deselect if tapping on the same square
+      selectedSquare = null;
+      legalMoves = {};
+    } else {
+      // Attempt to make a move
+      if (_isMoveValid(selectedSquare!, square)) {
+        await _makeMove(selectedSquare!, square);
       }
-    });
+      selectedSquare = null;
+      legalMoves = {};
+    }
+    setState(() {});
   }
 
   void _setSelectedSquareAndFindLegalMoves(String square) {
@@ -197,5 +216,32 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     final row = 8 - (index ~/ 8);
     final col = String.fromCharCode('a'.codeUnitAt(0) + (index % 8));
     return '$col$row';
+  }
+
+  Future<chess.PieceType> _showPromotionDialog(
+      BuildContext context, final double squareSize) async {
+    return await showDialog<chess.PieceType>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  chess.PieceType.QUEEN,
+                  chess.PieceType.ROOK,
+                  chess.PieceType.BISHOP,
+                  chess.PieceType.KNIGHT
+                ].map((pieceType) {
+                  return ChessPieceWidget(
+                    piece: chess.Piece(pieceType, game.turn),
+                    squareSize: squareSize,
+                    onTap: () => Navigator.of(context).pop(pieceType),
+                  );
+                }).toList(),
+              ),
+            );
+          },
+        ) ??
+        chess.PieceType.QUEEN; // Default to queen if dialog is dismissed
   }
 }

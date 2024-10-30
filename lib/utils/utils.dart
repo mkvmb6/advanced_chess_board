@@ -73,3 +73,21 @@ Widget getChessPieceWidget(final Piece chessPiece) {
   }
   return const Text("No piece found");
 }
+
+String pieceTypeToString(final PieceType pieceType) {
+  switch (pieceType) {
+    case PieceType.BISHOP:
+      return "b";
+    case PieceType.KING:
+      return "k";
+    case PieceType.KNIGHT:
+      return "n";
+    case PieceType.PAWN:
+      return "p";
+    case PieceType.QUEEN:
+      return "q";
+    case PieceType.ROOK:
+      return "r";
+  }
+  return "q";
+}

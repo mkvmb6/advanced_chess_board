@@ -6,16 +6,14 @@ import 'package:chess/chess.dart' as chess;
 class ChessPieceWidget extends StatelessWidget {
   final chess.Piece piece;
   final double squareSize;
-  final String square;
   final bool isDragging;
-  final void Function(String)? onTap;
+  final void Function()? onTap;
 
   const ChessPieceWidget({
     super.key,
     required this.piece,
     required this.squareSize,
-    required this.square,
-    required this.isDragging,
+    this.isDragging = false,
     this.onTap,
   });
 
@@ -35,7 +33,7 @@ class ChessPieceWidget extends StatelessWidget {
   Widget _buildPiece() {
     return Center(
       child: GestureDetector(
-        onTapDown: (_) => onTap == null ? null : onTap!(square),
+        onTapDown: (_) => onTap == null ? null : onTap!(),
         child: getChessPieceWidget(piece),
       ),
     );
