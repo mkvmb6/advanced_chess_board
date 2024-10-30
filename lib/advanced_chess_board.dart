@@ -1,14 +1,11 @@
 library advanced_chess_board;
 
-import 'package:advanced_chess_board/utils/utils.dart';
+import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
-import 'models/chess_piece.dart';
-import 'models/position.dart';
 import 'widgets/chess_square.dart';
 
 class AdvancedChessBoard extends StatefulWidget {
-  // Board color configuration
   final Color lightSquareColor;
   final Color darkSquareColor;
 
@@ -29,7 +26,8 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
 
   void _handleTap(String square) {
     setState(() {
-      if (selectedSquare == null) {
+      if (selectedSquare == null ||
+          (selectedSquare != square && game.turn == game.get(square)?.color)) {
         // Select a piece and highlight legal moves
         selectedSquare = square;
         legalMoves = List<String>.from(game.moves({"square": square}));
@@ -51,71 +49,130 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     });
   }
 
+  Offset _calculatePieceOffset(int index, double squareSize) {
+    final row = index ~/ 8;
+    final col = index % 8;
+    return Offset(col * squareSize, row * squareSize);
+  }
+
+  String _indexToSquare(int index) {
+    final row = 8 - (index ~/ 8);
+    final col = String.fromCharCode('a'.codeUnitAt(0) + (index % 8));
+    return '$col$row';
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.0,
-      child: GridView.builder(
-        itemCount: 64,
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
-        itemBuilder: (context, index) {
-          final row = 7 - index ~/ 8;
-          final col = index % 8;
-          final square = '${String.fromCharCode(97 + col)}${row + 1}';
-          final isLightSquare = (row + col) % 2 == 0;
-          final squareColor =
-              isLightSquare ? widget.lightSquareColor : widget.darkSquareColor;
+    return LayoutBuilder(
+      builder: (ctx, boxConstraints) {
+        final squareSize = boxConstraints.maxWidth / 8;
+        return AspectRatio(
+          aspectRatio: 1.0,
+          child: Stack(
+            children: [
+              _buildChessBoard(squareSize),
+              _buildAnimatedPieces(squareSize)
+            ],
+          ),
+        );
+      },
+    );
+  }
 
-          final isHighlighted = legalMoves.any((move) => move.contains(square));
-          final hasPiece = game.get(square) != null;
-          return GestureDetector(
-            onTap: () => _handleTap(square),
-            child: LayoutBuilder(
-              builder: (ctx, constraints) {
-                final smallDotSize = constraints.maxWidth * 0.3;
-                final circleSize = constraints.maxWidth * 0.98;
-                return Stack(
-                  children: [
-                    ChessSquare(color: squareColor),
-                    if (isHighlighted)
-                      Align(
-                        alignment: Alignment.center,
-                        child: hasPiece
-                            ? Container(
-                                width: circleSize,
-                                height: circleSize,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.grey.withOpacity(0.7),
-                                    width: constraints.maxWidth * 0.1,
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                width: smallDotSize,
-                                height: smallDotSize,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey.withOpacity(0.6),
-                                ),
-                              ),
-                      ),
-                    if (hasPiece) _buildPiece(game.get(square)!),
-                  ],
-                );
-              },
+  GridView _buildChessBoard(double squareSize) {
+    return GridView.builder(
+      itemCount: 64,
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
+      itemBuilder: (context, index) {
+        final row = 7 - index ~/ 8;
+        final col = index % 8;
+        final square = _indexToSquare(index);
+        final isLightSquare = (row % 2) != (col % 2);
+        final squareColor =
+            isLightSquare ? widget.lightSquareColor : widget.darkSquareColor;
+
+        final hasPiece = game.get(square) != null;
+        return GestureDetector(
+          onTap: () => _handleTap(square),
+          child: Stack(
+            children: [
+              ChessSquare(color: squareColor),
+              if (square == selectedSquare && game.get(square) != null)
+                _buildSelectedPieceOverlay(),
+              if (_isSquareHighlighted(square))
+                _buildHighlightOverlay(hasPiece, squareSize),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Align _buildHighlightOverlay(final bool hasPiece, final double squareSize) {
+    final smallDotSize = squareSize * 0.3;
+    final circleSize = squareSize * 0.98;
+    return Align(
+      alignment: Alignment.center,
+      child: hasPiece
+          ? Container(
+              width: circleSize,
+              height: circleSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.grey.withOpacity(0.7),
+                  width: squareSize * 0.1,
+                ),
+              ),
+            )
+          : Container(
+              width: smallDotSize,
+              height: smallDotSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey.withOpacity(0.6),
+              ),
             ),
-          );
-        },
+    );
+  }
+
+  Widget _buildSelectedPieceOverlay() {
+    return Container(
+      color: Colors.yellow.withOpacity(0.6),
+    );
+  }
+
+  Widget _buildAnimatedPieces(double squareSize) {
+    return Stack(
+      children: [
+        for (var index = 0; index < 64; index++)
+          if (game.get(_indexToSquare(index)) != null)
+            _buildPieceAtSquare(index, squareSize),
+      ],
+    );
+  }
+
+  Widget _buildPieceAtSquare(int index, double squareSize) {
+    final square = _indexToSquare(index);
+    final piece = game.get(square)!;
+    final offset = _calculatePieceOffset(index, squareSize);
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 15),
+      curve: Curves.easeInOut,
+      left: offset.dx,
+      top: offset.dy,
+      child: ChessPieceWidget(
+        piece: piece,
+        squareSize: squareSize,
+        square: square,
+        onTap: _handleTap,
       ),
     );
   }
 
-  Widget _buildPiece(chess.Piece piece) {
-    return Center(
-      child: getChessPieceWidget(piece),
-    );
+  bool _isSquareHighlighted(String square) {
+    return legalMoves.any((move) => move.contains(square));
   }
 }
