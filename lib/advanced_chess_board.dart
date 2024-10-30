@@ -12,12 +12,14 @@ class AdvancedChessBoard extends StatefulWidget {
   final Color lightSquareColor;
   final Color darkSquareColor;
   final String? initialFEN;
+  final chess.Color boardOrientation;
 
   const AdvancedChessBoard({
     super.key,
     this.lightSquareColor = const Color(0xFFEBECD0),
     this.darkSquareColor = const Color(0xFF739552),
     this.initialFEN,
+    this.boardOrientation = chess.Color.WHITE,
   });
 
   @override
@@ -25,7 +27,7 @@ class AdvancedChessBoard extends StatefulWidget {
 }
 
 class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
-  chess.Chess game = chess.Chess();
+  final chess.Chess game = chess.Chess();
   Set<String> legalMoves = {};
   String? selectedSquare;
   bool isPieceDragging = false;
@@ -86,10 +88,16 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
       itemBuilder: (context, index) {
-        final row = 7 - index ~/ 8;
-        final col = index % 8;
-        final square = _indexToSquare(index);
-        final isLightSquare = (row % 2) != (col % 2);
+        var row = index ~/ 8;
+        var col = index % 8;
+        var rank = widget.boardOrientation == chess.Color.WHITE
+            ? (7 - row) + 1
+            : row + 1;
+        final file = widget.boardOrientation == chess.Color.WHITE
+            ? files[col]
+            : files[7 - col];
+        final square = "$file$rank";
+        final isLightSquare = (row % 2) == (col % 2);
         final squareColor =
             isLightSquare ? widget.lightSquareColor : widget.darkSquareColor;
         return _buildSquareWithDragTarget(square, squareColor, squareSize);
@@ -124,7 +132,12 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
                 : SystemMouseCursors.basic,
             child: Stack(
               children: [
-                ChessSquare(color: squareColor),
+                ChessSquare(
+                  color: squareColor,
+                  square: square,
+                  boardOrientation: widget.boardOrientation,
+                  squareSize: squareSize,
+                ),
                 if (square == selectedSquare && hasPiece)
                   _buildSelectedPieceOverlay(),
                 if (_isSquarePartOfValidMoves(legalMoves, square))
@@ -220,12 +233,6 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   void _setSelectedSquareAndFindLegalMoves(String square) {
     selectedSquare = square;
     legalMoves = Set<String>.from(game.moves({squareKey: square}));
-  }
-
-  String _indexToSquare(int index) {
-    final row = 8 - (index ~/ 8);
-    final col = String.fromCharCode('a'.codeUnitAt(0) + (index % 8));
-    return '$col$row';
   }
 
   Future<chess.PieceType> _showPromotionDialog(
