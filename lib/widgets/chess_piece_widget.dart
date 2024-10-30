@@ -7,20 +7,23 @@ class ChessPieceWidget extends StatelessWidget {
   final chess.Piece piece;
   final double squareSize;
   final String square;
-  final void Function(String) onTap;
+  final bool isDragging;
+  final void Function(String)? onTap;
 
   const ChessPieceWidget({
     super.key,
     required this.piece,
     required this.squareSize,
     required this.square,
-    required this.onTap,
+    required this.isDragging,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors.grab,
+      cursor:
+          isDragging ? SystemMouseCursors.grabbing : SystemMouseCursors.grab,
       child: SizedBox(
         width: squareSize,
         height: squareSize,
@@ -32,7 +35,7 @@ class ChessPieceWidget extends StatelessWidget {
   Widget _buildPiece() {
     return Center(
       child: GestureDetector(
-        onTap: () => onTap(square),
+        onTapDown: (_) => onTap == null ? null : onTap!(square),
         child: getChessPieceWidget(piece),
       ),
     );
