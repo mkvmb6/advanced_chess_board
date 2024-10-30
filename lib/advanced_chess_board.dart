@@ -11,11 +11,13 @@ import 'widgets/highlight_overlay.dart';
 class AdvancedChessBoard extends StatefulWidget {
   final Color lightSquareColor;
   final Color darkSquareColor;
+  final String? initialFEN;
 
   const AdvancedChessBoard({
     super.key,
     this.lightSquareColor = const Color(0xFFEBECD0),
     this.darkSquareColor = const Color(0xFF739552),
+    this.initialFEN,
   });
 
   @override
@@ -27,6 +29,14 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   Set<String> legalMoves = {};
   String? selectedSquare;
   bool isPieceDragging = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialFEN != null) {
+      loadFromFEN(widget.initialFEN!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +229,9 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   }
 
   Future<chess.PieceType> _showPromotionDialog(
-      BuildContext context, final double squareSize) async {
+    BuildContext context,
+    final double squareSize,
+  ) async {
     return await showDialog<chess.PieceType>(
           context: context,
           builder: (context) {
@@ -243,5 +255,11 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           },
         ) ??
         chess.PieceType.QUEEN; // Default to queen if dialog is dismissed
+  }
+
+  void loadFromFEN(final String fen) {
+    setState(() {
+      game.load(fen);
+    });
   }
 }
