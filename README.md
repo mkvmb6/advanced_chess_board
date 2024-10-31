@@ -45,6 +45,10 @@ See the example/main.dart for more details.
   }
 ```
 
+## Credits
+
+For the images of pieces, it currently uses the images of Chess.com.
+
 ## Additional information
 
 Support for drawing arrow will be added in upcoming release.
