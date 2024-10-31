@@ -20,4 +20,8 @@
 
 ## 1.1.1
 
-* Minor bug fixes with layout. 
+* Minor bug fixes with layout.
+
+## 1.2.0
+
+* Added the property PlayerToMove in the controller. 

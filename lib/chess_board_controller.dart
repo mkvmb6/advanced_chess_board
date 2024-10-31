@@ -62,4 +62,9 @@ class ChessBoardController extends ChangeNotifier {
   String get fen => game.fen;
 
   Chess get game => _game;
+
+  PlayerToMove get playerToMove =>
+      game.turn == Color.WHITE ? PlayerToMove.white : PlayerToMove.black;
 }
+
+enum PlayerToMove { white, black }

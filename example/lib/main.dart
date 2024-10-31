@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     controller.addListener(() {
       setState(() {});
-      debugPrint("Something happened");//Arrow support
+      debugPrint("Player to move: ${controller.playerToMove}");
     });
   }
 
@@ -47,9 +47,9 @@ class _MyAppState extends State<MyApp> {
           children: [
             Expanded(
               child: Center(
-          child: AdvancedChessBoard(
-            controller: controller,
-          ),
+                child: AdvancedChessBoard(
+                  controller: controller,
+                ),
               ),
             ),
             Padding(
