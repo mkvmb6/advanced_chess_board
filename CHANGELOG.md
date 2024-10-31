@@ -16,4 +16,8 @@
 
 ## 1.1.0
 
-* Fixed the issue where listener was not getting notified upon moves being made. 
+* Fixed the issue where listener was not getting notified upon moves being made.
+
+## 1.1.1
+
+* Minor bug fixes with layout. 

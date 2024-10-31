@@ -1,5 +1,7 @@
 library;
 
+import 'dart:math';
+
 import 'package:advanced_chess_board/chess_board_controller.dart';
 import 'package:advanced_chess_board/utils/utils.dart';
 import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
@@ -50,7 +52,8 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, boxConstraints) {
-        final squareSize = boxConstraints.maxWidth / 8;
+        final squareSize =
+            min(boxConstraints.maxWidth, boxConstraints.maxHeight) / 8;
         return AspectRatio(
           aspectRatio: 1.0,
           child: Stack(
