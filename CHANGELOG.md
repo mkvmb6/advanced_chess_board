@@ -5,3 +5,7 @@
 ## 1.0.1
 
 * Removed unnecessary dependency on `chess_vectors_flutter`
+
+## 1.0.2
+
+* Added `enableMoves` boolean parameter to AdvancedChessBoard to control if moves should be allowed on board or not. 

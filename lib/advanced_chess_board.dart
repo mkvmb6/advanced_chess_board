@@ -15,6 +15,7 @@ class AdvancedChessBoard extends StatefulWidget {
   final String? initialFEN;
   final chess.Color boardOrientation;
   final ChessBoardController controller;
+  final bool enableMoves;
 
   const AdvancedChessBoard({
     super.key,
@@ -23,6 +24,7 @@ class AdvancedChessBoard extends StatefulWidget {
     this.initialFEN,
     this.boardOrientation = chess.Color.WHITE,
     required this.controller,
+    this.enableMoves = true,
   });
 
   @override
@@ -162,6 +164,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   ) {
     return Draggable<String>(
       data: square,
+      maxSimultaneousDrags: widget.enableMoves ? null : 0,
       onDragStarted: () {
         setState(() {
           _setSelectedSquareAndFindLegalMoves(square);
@@ -178,6 +181,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           piece: piece,
           squareSize: squareSize,
           isDragging: isPieceDragging,
+          isBoardEnabled: widget.enableMoves,
         ),
       ),
       childWhenDragging: Container(),
@@ -186,6 +190,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
         piece: piece,
         squareSize: squareSize,
         isDragging: isPieceDragging,
+        isBoardEnabled: widget.enableMoves,
         onTap: () => _handleTap(square),
       ),
     );
@@ -215,6 +220,9 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   }
 
   Future<void> _handleTap(String square) async {
+    if (!widget.enableMoves) {
+      return;
+    }
     if (selectedSquare == null ||
         (selectedSquare != square && game.turn == game.get(square)?.color)) {
       // Select a piece and highlight legal moves
@@ -259,6 +267,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
                     piece: chess.Piece(pieceType, game.turn),
                     squareSize: squareSize,
                     onTap: () => Navigator.of(context).pop(pieceType),
+                    isBoardEnabled: widget.enableMoves,
                   );
                 }).toList(),
               ),

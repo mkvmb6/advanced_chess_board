@@ -7,12 +7,14 @@ class ChessPieceWidget extends StatelessWidget {
   final chess.Piece piece;
   final double squareSize;
   final bool isDragging;
+  final bool isBoardEnabled;
   final void Function()? onTap;
 
   const ChessPieceWidget({
     super.key,
     required this.piece,
     required this.squareSize,
+    required this.isBoardEnabled,
     this.isDragging = false,
     this.onTap,
   });
@@ -20,8 +22,11 @@ class ChessPieceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor:
-          isDragging ? SystemMouseCursors.grabbing : SystemMouseCursors.grab,
+      cursor: isDragging
+          ? SystemMouseCursors.grabbing
+          : isBoardEnabled
+              ? SystemMouseCursors.grab
+              : SystemMouseCursors.basic,
       child: SizedBox(
         width: squareSize,
         height: squareSize,

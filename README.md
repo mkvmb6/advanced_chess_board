@@ -6,6 +6,9 @@ It's a chess board developed in using plain flutter widgets without using images
 
 - You can load the board with custom FEN.
 - Control the orientation of the board.
+- Enable/Disable moves on board.
+- Moves the pieces either by clicking/tapping or dragging.
+- Highlighting the valid moves upon clicking/tapping or dragging.
 - Make a move using the controller programmatically.
 - Get the move history, isCheckMate, undo move etc.
 - Controller also exposes the game object to control the board further.
