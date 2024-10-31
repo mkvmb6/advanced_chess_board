@@ -1,5 +1,6 @@
 import 'package:advanced_chess_board/advanced_chess_board.dart';
 import 'package:advanced_chess_board/chess_board_controller.dart';
+import 'package:advanced_chess_board/models/chess_arrow.dart';
 import 'package:advanced_chess_board/models/enums.dart';
 import 'package:flutter/material.dart';
 
@@ -54,6 +55,23 @@ class _MyAppState extends State<MyApp> {
                   child: AdvancedChessBoard(
                     controller: controller,
                     boardOrientation: boardOrientation,
+                    arrows: [
+                      ChessArrow(
+                        startSquare: "e2",
+                        endSquare: "e4",
+                        color: Colors.red,
+                      ),
+                      ChessArrow(
+                        startSquare: "d5",
+                        endSquare: "a8",
+                        color: Colors.grey,
+                      ),
+                      ChessArrow(
+                        startSquare: "a1",
+                        endSquare: "h8",
+                        color: Colors.yellow,
+                      ),
+                    ],
                   ),
                 ),
               ),
