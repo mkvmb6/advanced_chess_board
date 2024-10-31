@@ -2,6 +2,8 @@
 
 It's a chess board developed in using plain flutter widgets without using images of a board. So you can customize board color as per your need. It uses a `ChessBoardController` to control the board state. 
 
+![Screenshot](images/advancedChessBoardSS1.png)
+
 ## Features
 
 - You can load the board with custom FEN.

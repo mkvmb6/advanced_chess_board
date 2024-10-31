@@ -8,6 +8,7 @@ import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'constants/global_constants.dart';
+import 'models/enums.dart';
 import 'widgets/chess_square.dart';
 import 'widgets/highlight_overlay.dart';
 
@@ -15,7 +16,7 @@ class AdvancedChessBoard extends StatefulWidget {
   final Color lightSquareColor;
   final Color darkSquareColor;
   final String? initialFEN;
-  final chess.Color boardOrientation;
+  final PlayerColor boardOrientation;
   final ChessBoardController controller;
   final bool enableMoves;
 
@@ -24,7 +25,7 @@ class AdvancedChessBoard extends StatefulWidget {
     this.lightSquareColor = const Color(0xFFEBECD0),
     this.darkSquareColor = const Color(0xFF739552),
     this.initialFEN,
-    this.boardOrientation = chess.Color.WHITE,
+    this.boardOrientation = PlayerColor.white,
     required this.controller,
     this.enableMoves = true,
   });
@@ -92,12 +93,12 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
       itemBuilder: (context, index) {
-        var row = index ~/ 8;
-        var col = index % 8;
-        var rank = widget.boardOrientation == chess.Color.WHITE
+        final row = index ~/ 8;
+        final col = index % 8;
+        final rank = widget.boardOrientation == PlayerColor.white
             ? (7 - row) + 1
             : row + 1;
-        final file = widget.boardOrientation == chess.Color.WHITE
+        final file = widget.boardOrientation == PlayerColor.white
             ? files[col]
             : files[7 - col];
         final square = "$file$rank";

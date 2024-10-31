@@ -1,10 +1,11 @@
-import 'package:chess/chess.dart' as chess;
 import 'package:flutter/material.dart';
+
+import '../models/enums.dart';
 
 class ChessSquare extends StatelessWidget {
   final Color color;
   final String square;
-  final chess.Color boardOrientation;
+  final PlayerColor boardOrientation;
   final double squareSize;
 
   const ChessSquare({
@@ -57,7 +58,7 @@ class ChessSquare extends StatelessWidget {
   }
 
   bool _shouldRankBeRendered(final String file, final String rank) {
-    if (boardOrientation == chess.Color.WHITE) {
+    if (boardOrientation == PlayerColor.white) {
       return file == "a";
     } else {
       return file == "h";
@@ -65,7 +66,7 @@ class ChessSquare extends StatelessWidget {
   }
 
   bool _shouldFileBeRendered(final String file, final String rank) {
-    if (boardOrientation == chess.Color.WHITE) {
+    if (boardOrientation == PlayerColor.white) {
       return rank == "1";
     } else {
       return rank == "8";

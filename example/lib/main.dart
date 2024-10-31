@@ -1,5 +1,6 @@
 import 'package:advanced_chess_board/advanced_chess_board.dart';
 import 'package:advanced_chess_board/chess_board_controller.dart';
+import 'package:advanced_chess_board/models/enums.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,13 +16,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final controller = ChessBoardController();
+  var boardOrientation = PlayerColor.white;
 
   @override
   void initState() {
     super.initState();
     controller.addListener(() {
       setState(() {});
-      debugPrint("Player to move: ${controller.playerToMove}");
+      debugPrint("Player to move: ${controller.playerColor}");
     });
   }
 
@@ -47,8 +49,12 @@ class _MyAppState extends State<MyApp> {
           children: [
             Expanded(
               child: Center(
-                child: AdvancedChessBoard(
-                  controller: controller,
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: AdvancedChessBoard(
+                    controller: controller,
+                    boardOrientation: boardOrientation,
+                  ),
                 ),
               ),
             ),
@@ -57,6 +63,14 @@ class _MyAppState extends State<MyApp> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  ElevatedButton(
+                    onPressed: () => setState(() {
+                      boardOrientation = boardOrientation == PlayerColor.white
+                          ? PlayerColor.black
+                          : PlayerColor.white;
+                    }),
+                    child: const Text("Flip"),
+                  ),
                   ElevatedButton(
                     onPressed: () => controller.undo(),
                     child: const Text("Undo"),

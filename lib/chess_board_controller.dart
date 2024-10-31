@@ -2,6 +2,7 @@ import 'package:chess/chess.dart';
 import 'package:flutter/foundation.dart';
 
 import 'constants/global_constants.dart';
+import 'models/enums.dart';
 
 class ChessBoardController extends ChangeNotifier {
   VoidCallback? _listener;
@@ -63,8 +64,6 @@ class ChessBoardController extends ChangeNotifier {
 
   Chess get game => _game;
 
-  PlayerToMove get playerToMove =>
-      game.turn == Color.WHITE ? PlayerToMove.white : PlayerToMove.black;
+  PlayerColor get playerColor =>
+      game.turn == Color.WHITE ? PlayerColor.white : PlayerColor.black;
 }
-
-enum PlayerToMove { white, black }
