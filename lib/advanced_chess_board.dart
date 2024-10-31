@@ -42,7 +42,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     super.initState();
     game = widget.controller.game;
     if (widget.initialFEN != null) {
-      loadFromFEN(widget.initialFEN!);
+      widget.controller.loadGameFromFEN(widget.initialFEN!);
     }
   }
 
@@ -69,15 +69,10 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   }
 
   Future<bool> _makeMove(final String from, final String to) async {
-    if (_isPromotionMove(from, to)) {
-      final pieceType = await _showPromotionDialog(context, 60);
-      return game.move({
-        fromKey: from,
-        toKey: to,
-        promotionKey: pieceTypeToString(pieceType),
-      });
-    }
-    return game.move({fromKey: from, toKey: to});
+    final promotion = (_isPromotionMove(from, to))
+        ? pieceTypeToString(await _showPromotionDialog(context, 60))
+        : null;
+    return widget.controller.makeMove(from: from, to: to, promotion: promotion);
   }
 
   bool _isPromotionMove(String from, String to) {
@@ -275,11 +270,5 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           },
         ) ??
         chess.PieceType.QUEEN; // Default to queen if dialog is dismissed
-  }
-
-  void loadFromFEN(final String fen) {
-    setState(() {
-      game.load(fen);
-    });
   }
 }

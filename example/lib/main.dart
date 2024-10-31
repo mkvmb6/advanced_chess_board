@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                     child: const Text("Undo"),
                   ),
                   ElevatedButton(
-                    onPressed: () => controller.loadFen(
+                    onPressed: () => controller.loadGameFromFEN(
                         "4k3/p2pNpp1/p2P4/4P2R/5P2/2P3P1/r1PKN1q1/4R3 w - - 0 1"),
                     child: const Text("Load Fen"),
                   ),

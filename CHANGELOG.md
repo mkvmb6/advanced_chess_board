@@ -12,4 +12,8 @@
 
 ## 1.0.3
 
-* Updated the `flutter_lints` version to `^5.0.0`. 
+* Updated the `flutter_lints` version to `^5.0.0`.
+
+## 1.1.0
+
+* Fixed the issue where listener was not getting notified upon moves being made. 

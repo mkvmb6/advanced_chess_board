@@ -6,7 +6,7 @@ import 'constants/global_constants.dart';
 class ChessBoardController extends ChangeNotifier {
   VoidCallback? _listener;
 
-  final Chess game = Chess();
+  final Chess _game = Chess();
 
   @override
   void addListener(VoidCallback listener) {
@@ -30,7 +30,11 @@ class ChessBoardController extends ChangeNotifier {
     _notifyListeners();
   }
 
-  bool makeMove(final String from, final String to, {final String? promotion}) {
+  bool makeMove({
+    required final String from,
+    required final String to,
+    final String? promotion,
+  }) {
     final moveMade = promotion != null
         ? game.move({fromKey: from, toKey: to, promotionKey: promotion})
         : game.move({fromKey: from, toKey: to});
@@ -50,10 +54,12 @@ class ChessBoardController extends ChangeNotifier {
     return game.in_checkmate;
   }
 
-  void loadFen(final String fen) {
+  void loadGameFromFEN(final String fen) {
     game.load(fen);
     _notifyListeners();
   }
 
   String get fen => game.fen;
+
+  Chess get game => _game;
 }
