@@ -1,4 +1,4 @@
-library advanced_chess_board;
+library;
 
 import 'package:advanced_chess_board/chess_board_controller.dart';
 import 'package:advanced_chess_board/utils/utils.dart';

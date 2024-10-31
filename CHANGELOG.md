@@ -9,3 +9,7 @@
 ## 1.0.2
 
 * Added `enableMoves` boolean parameter to AdvancedChessBoard to control if moves should be allowed on board or not. 
+
+## 1.0.3
+
+* Updated the `flutter_lints` version to `^5.0.0`. 
