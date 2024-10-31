@@ -7,7 +7,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.0.1"
   async:
     dependency: transitive
     description:
@@ -40,14 +40,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.1"
-  chess_vectors_flutter:
-    dependency: transitive
-    description:
-      name: chess_vectors_flutter
-      sha256: "5d9d013d2f1340bde1fda15d915262a420f75ff7f1e219860cb364073e5a3456"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   clock:
     dependency: transitive
     description:
@@ -215,14 +207,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2"
-  tuple:
-    dependency: transitive
-    description:
-      name: tuple
-      sha256: a97ce2013f240b2f3807bcbaf218765b6f301c3eff91092bcfa23a039e7dd151
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   vector_math:
     dependency: transitive
     description:

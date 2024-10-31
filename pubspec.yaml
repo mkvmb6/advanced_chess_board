@@ -1,6 +1,6 @@
 name: advanced_chess_board
 description: "A modern looking chess board with advanced features."
-version: 1.0.0
+version: 1.0.1
 homepage: "https://github.com/mkvmb6/advanced_chess_board"
 
 environment:
@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   chess: ^0.8.1
-  chess_vectors_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
