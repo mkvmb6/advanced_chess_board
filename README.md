@@ -1,39 +1,50 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# advanced_chess_board
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+It's a chess board developed in using plain flutter widgets without using images of a board. So you can customize board color as per your need. It uses a `ChessBoardController` to control the board state. 
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- You can load the board with custom FEN.
+- Control the orientation of the board.
+- Make a move using the controller programmatically.
+- Get the move history, isCheckMate, undo move etc.
+- Controller also exposes the game object to control the board further.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- Add a dependency to this package (advanced_chess_board) in your pubspec.yaml
+- Add an `AdvancedChessBoard` widget and provide a `ChessBoardController` object to it.
+- Optional : If you to provide custom colors for board you can provide corresponding `darkSquareColor` and `lightSquareColor` parameters.
+- Optional : By default board orientation is for white. You can provide optional `boardOrientation` to be either black or white.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Below is the basic example with minimal parameters.
+See the example/main.dart for more details. 
 
 ```dart
-const like = 'sample';
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Chess Board Example',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
+      themeMode: ThemeMode.dark,
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Chess Board Example')),
+        body: Center(
+          child: AdvancedChessBoard(
+            controller: controller,
+          ),
+        ),
+      ),
+    );
+  }
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Support for drawing arrow will be added in upcoming release.
