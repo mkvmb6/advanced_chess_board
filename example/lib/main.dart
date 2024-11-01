@@ -59,17 +59,15 @@ class _MyAppState extends State<MyApp> {
                       ChessArrow(
                         startSquare: "e2",
                         endSquare: "e4",
-                        color: Colors.red,
                       ),
                       ChessArrow(
-                        startSquare: "d5",
-                        endSquare: "a8",
-                        color: Colors.grey,
+                        startSquare: "e7",
+                        endSquare: "e5",
                       ),
                       ChessArrow(
-                        startSquare: "a1",
-                        endSquare: "h8",
-                        color: Colors.yellow,
+                        startSquare: "g1",
+                        endSquare: "f3",
+                        color: Colors.red.withOpacity(0.5),
                       ),
                     ],
                   ),

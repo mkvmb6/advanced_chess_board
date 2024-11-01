@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:advanced_chess_board/models/chess_arrow.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/global_constants.dart';
 import '../models/enums.dart';
 
 class ArrowPainter extends CustomPainter {
@@ -13,92 +12,89 @@ class ArrowPainter extends CustomPainter {
   ArrowPainter(this.arrows, this.boardOrientation);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    var blockSize = size.width / 8;
-    var halfBlockSize = size.width / 16;
+  void paint(final Canvas canvas, final Size size) {
+    for (final arrow in arrows) {
+      final (sourceRow, sourceCol) = getIndexFromSquare(arrow.startSquare);
+      final (destRow, destCol) = getIndexFromSquare(arrow.endSquare);
+      final blockSize = size.width / 8;
 
-    for (var arrow in arrows) {
-      var startFile = files.indexOf(arrow.startSquare[0]);
-      var startRank = int.parse(arrow.startSquare[1]) - 1;
-      var endFile = files.indexOf(arrow.endSquare[0]);
-      var endRank = int.parse(arrow.endSquare[1]) - 1;
+      // Calculate centers of the source and destination squares
+      final sourceX = sourceCol * blockSize + (blockSize / 2);
+      final sourceY = sourceRow * blockSize + (blockSize / 2);
+      final destX = destCol * blockSize + (blockSize / 2);
+      final destY = destRow * blockSize + (blockSize / 2);
 
-      int effectiveRowStart = 0;
-      int effectiveColumnStart = 0;
-      int effectiveRowEnd = 0;
-      int effectiveColumnEnd = 0;
+      // Vector calculation between source and destination
+      final dx = destX - sourceX;
+      final dy = destY - sourceY;
+      final distance = sqrt(dx * dx + dy * dy);
 
-      if (boardOrientation == PlayerColor.black) {
-        effectiveColumnStart = 7 - startFile;
-        effectiveColumnEnd = 7 - endFile;
-        effectiveRowStart = startRank;
-        effectiveRowEnd = endRank;
-      } else {
-        effectiveColumnStart = startFile;
-        effectiveColumnEnd = endFile;
-        effectiveRowStart = 7 - startRank;
-        effectiveRowEnd = 7 - endRank;
-      }
+      // Define lengths for offsets and arrowhead sides
+      final sourceThreshold = blockSize * 0.35;
+      final destinationThreshold = blockSize * 0.272;
+      final arrowheadSideLength = blockSize * 0.2;
 
-      var startOffset = Offset(
-          ((effectiveColumnStart + 1) * blockSize) - halfBlockSize,
-          ((effectiveRowStart + 1) * blockSize) - halfBlockSize);
-      var endOffset = Offset(
-          ((effectiveColumnEnd + 1) * blockSize) - halfBlockSize,
-          ((effectiveRowEnd + 1) * blockSize) - halfBlockSize);
+      // Calculate the main line's adjusted endpoint (just before the base of the arrowhead triangle)
+      final adjustedSourceX = sourceX + (dx / distance) * sourceThreshold;
+      final adjustedSourceY = sourceY + (dy / distance) * sourceThreshold;
+      final adjustedDestX =
+          destX - (dx / distance) * (arrowheadSideLength * cos(pi / 6));
+      final adjustedDestY =
+          destY - (dy / distance) * (arrowheadSideLength * cos(pi / 6));
+      final strokeDestX = destX - (dx / distance) * destinationThreshold;
+      final strokeDestY = destY - (dy / distance) * destinationThreshold;
 
-      var yDist = 0.9 * (endOffset.dy - startOffset.dy);
-      var xDist = 0.9 * (endOffset.dx - startOffset.dx);
-      print("$yDist,$xDist");
+      // Draw the main arrow line
+      final paint = Paint()
+        ..color = arrow.color!
+        ..strokeWidth = blockSize * 0.16;
+      canvas.drawLine(Offset(adjustedSourceX, adjustedSourceY),
+          Offset(strokeDestX, strokeDestY), paint);
 
-      var paint = Paint()
-        ..strokeWidth = halfBlockSize * 0.5
-        ..color = arrow.color.withOpacity(0.5);
+      // Calculate points for the equilateral triangle arrowhead
+      final angle = atan2(dy, dx);
 
-      canvas.drawLine(startOffset,
-          Offset(startOffset.dx + xDist, startOffset.dy + yDist), paint);
+      // Arrowhead points: tip at destination center, and two base points at the adjusted end of the line
+      final tipX = destX;
+      final tipY = destY;
+      final baseX1 = adjustedDestX - arrowheadSideLength * cos(angle - pi / 3);
+      final baseY1 = adjustedDestY - arrowheadSideLength * sin(angle - pi / 3);
+      final baseX2 = adjustedDestX - arrowheadSideLength * cos(angle + pi / 3);
+      final baseY2 = adjustedDestY - arrowheadSideLength * sin(angle + pi / 3);
 
-      var slope =
-          (endOffset.dy - startOffset.dy) / (endOffset.dx - startOffset.dx);
+      // Draw the equilateral triangle arrowhead
+      final arrowheadPath = Path()
+        ..moveTo(tipX, tipY)
+        ..lineTo(baseX1, baseY1)
+        ..lineTo(baseX2, baseY2)
+        ..close();
 
-      var newLineSlope = -1 / slope;
-
-      var points = _getNewPoints(
-          Offset(startOffset.dx + xDist, startOffset.dy + yDist),
-          newLineSlope,
-          halfBlockSize);
-      var newPoint1 = points[0];
-      var newPoint2 = points[1];
-
-      var path = Path();
-
-      path.moveTo(endOffset.dx, endOffset.dy);
-      path.lineTo(newPoint1.dx, newPoint1.dy);
-      path.lineTo(newPoint2.dx, newPoint2.dy);
-      path.close();
-
-      canvas.drawPath(path, paint);
+      // Fill the arrowhead triangle
+      final arrowheadPaint = Paint()..color = arrow.color!;
+      canvas.drawPath(arrowheadPath, arrowheadPaint);
     }
   }
 
-  List<Offset> _getNewPoints(Offset start, double slope, double length) {
-    length = length * 0.5;
-    if (slope == double.infinity || slope == double.negativeInfinity) {
-      return [
-        Offset(start.dx, start.dy + length),
-        Offset(start.dx, start.dy - length)
-      ];
+  (int, int) getIndexFromSquare(final String square) {
+    var row = 8 - square[1].codeUnitAt(0) + 48;
+    var col = square[0].codeUnitAt(0) - 97;
+    if (boardOrientation == PlayerColor.black) {
+      row = 7 - row;
+      col = 7 - col;
     }
-    return [
-      Offset(start.dx + (length / sqrt(1 + (slope * slope))),
-          start.dy + ((length * slope) / sqrt(1 + (slope * slope)))),
-      Offset(start.dx - (length / sqrt(1 + (slope * slope))),
-          start.dy - ((length * slope) / sqrt(1 + (slope * slope)))),
-    ];
+    return (row, col);
   }
 
   @override
   bool shouldRepaint(ArrowPainter oldDelegate) {
-    return arrows != oldDelegate.arrows;
+    if (arrows.length != oldDelegate.arrows.length) {
+      return false;
+    }
+    for (var i = 0; i < arrows.length; i++) {
+      if (arrows[i] != oldDelegate.arrows[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 }

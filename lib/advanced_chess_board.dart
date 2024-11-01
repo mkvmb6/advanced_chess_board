@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:advanced_chess_board/chess_board_controller.dart';
 import 'package:advanced_chess_board/models/chess_arrow.dart';
-import 'package:advanced_chess_board/utils/chess_arrow_painter.dart';
 import 'package:advanced_chess_board/utils/utils.dart';
 import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +64,11 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           child: Stack(
             children: [
               _buildChessBoard(squareSize),
-              CustomPaint(
-                painter: ArrowPainter(widget.arrows, widget.boardOrientation),
-                child: Container(),
+              IgnorePointer(
+                child: CustomPaint(
+                  painter: ArrowPainter(widget.arrows, widget.boardOrientation),
+                  child: Container(),
+                ),
               )
             ],
           ),

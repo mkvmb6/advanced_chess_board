@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class ChessArrow {
   final String startSquare;
   final String endSquare;
-  final Color color;
+  final Color? color;
 
   ChessArrow({
     required this.startSquare,
     required this.endSquare,
-    this.color = Colors.black,
-  });
+    Color? color,
+  }) : color = color ?? Colors.amber.withOpacity(0.5);
 
   @override
   bool operator ==(Object other) {
