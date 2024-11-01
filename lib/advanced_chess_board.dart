@@ -3,12 +3,14 @@ library;
 import 'dart:math';
 
 import 'package:advanced_chess_board/chess_board_controller.dart';
+import 'package:advanced_chess_board/models/chess_arrow.dart';
 import 'package:advanced_chess_board/utils/utils.dart';
 import 'package:advanced_chess_board/widgets/chess_piece_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'constants/global_constants.dart';
 import 'models/enums.dart';
+import 'utils/arrow_painter.dart';
 import 'widgets/chess_square.dart';
 import 'widgets/highlight_overlay.dart';
 
@@ -19,6 +21,7 @@ class AdvancedChessBoard extends StatefulWidget {
   final PlayerColor boardOrientation;
   final ChessBoardController controller;
   final bool enableMoves;
+  final List<ChessArrow> arrows;
 
   const AdvancedChessBoard({
     super.key,
@@ -28,6 +31,7 @@ class AdvancedChessBoard extends StatefulWidget {
     this.boardOrientation = PlayerColor.white,
     required this.controller,
     this.enableMoves = true,
+    this.arrows = const [],
   });
 
   @override
@@ -60,6 +64,12 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           child: Stack(
             children: [
               _buildChessBoard(squareSize),
+              IgnorePointer(
+                child: CustomPaint(
+                  painter: ArrowPainter(widget.arrows, widget.boardOrientation),
+                  child: Container(),
+                ),
+              )
             ],
           ),
         );

@@ -24,4 +24,12 @@
 
 ## 1.2.0
 
-* Added the property PlayerToMove in the controller. 
+* Added the property PlayerToMove in the controller.
+
+## 1.2.1
+
+* Updated the property playerToMove to playerColor, and used the same in boardOrientation.
+
+## 2.0.0
+
+* Added the feature to draw arrows on the board using the arrows parameter. 

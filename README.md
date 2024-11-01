@@ -3,6 +3,7 @@
 It's a chess board developed in using plain flutter widgets without using images of a board. So you can customize board color as per your need. It uses a `ChessBoardController` to control the board state. 
 
 ![Screenshot](images/advancedChessBoardSS1.png)
+![Screenshot](images/advancedChessBoardSS2.png)
 
 ## Features
 
@@ -11,6 +12,7 @@ It's a chess board developed in using plain flutter widgets without using images
 - Enable/Disable moves on board.
 - Move the pieces either by clicking/tapping or dragging.
 - Highlight the valid moves upon clicking/tapping or dragging.
+- Draw arrows on the board
 - Make a move using the controller programmatically.
 - Get the move history, playerToMove, isCheckmate, undo move etc.
 - Add a listener using the controller.
