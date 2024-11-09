@@ -21,6 +21,7 @@ class AdvancedChessBoard extends StatefulWidget {
   final PlayerColor boardOrientation;
   final ChessBoardController controller;
   final bool enableMoves;
+  final bool highlightLastMove;
   final List<ChessArrow> arrows;
 
   const AdvancedChessBoard({
@@ -31,6 +32,7 @@ class AdvancedChessBoard extends StatefulWidget {
     this.boardOrientation = PlayerColor.white,
     required this.controller,
     this.enableMoves = true,
+    this.highlightLastMove = true,
     this.arrows = const [],
   });
 
@@ -157,6 +159,8 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
                   _buildSelectedPieceOverlay(),
                 if (_isSquarePartOfValidMoves(legalMoves, square))
                   HighlightOverlay(hasPiece: hasPiece, squareSize: squareSize),
+                if (widget.highlightLastMove && game.history.isNotEmpty)
+                  _buildLastMoveHighlight(square),
                 if (hasPiece) _buildPiece(square, squareSize, piece),
               ],
             ),
@@ -284,5 +288,15 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           },
         ) ??
         chess.PieceType.QUEEN; // Default to queen if dialog is dismissed
+  }
+
+  Widget _buildLastMoveHighlight(final String square) {
+    final lastMove = game.history.last.move;
+    if (square == lastMove.fromAlgebraic || square == lastMove.toAlgebraic) {
+      return Container(
+        color: Colors.yellow.withOpacity(0.5),
+      );
+    }
+    return Container();
   }
 }

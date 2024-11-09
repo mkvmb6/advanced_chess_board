@@ -1,6 +1,6 @@
 name: advanced_chess_board
 description: "A modern looking chess board with advanced features."
-version: 2.0.0
+version: 2.1.0
 homepage: "https://github.com/mkvmb6/advanced_chess_board"
 
 environment:

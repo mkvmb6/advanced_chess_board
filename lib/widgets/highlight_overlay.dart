@@ -23,7 +23,7 @@ class HighlightOverlay extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.black12.withOpacity(0.2),
+                  color: Colors.black12.withOpacity(0.3),
                   width: squareSize * 0.1,
                 ),
               ),

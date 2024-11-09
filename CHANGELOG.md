@@ -32,4 +32,8 @@
 
 ## 2.0.0
 
-* Added the feature to draw arrows on the board using the arrows parameter. 
+* Added the feature to draw arrows on the board using the arrows parameter.
+
+## 2.1.0
+
+* Added the feature so that squares related to last played move are highlighted by default. 
