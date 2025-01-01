@@ -1,3 +1,8 @@
+## 2.3.0
+
+* Chess piece is scaled while dragging.
+* Checkmated king is highlighted with customizable color (default red).
+
 ## 2.2.0
 
 * Added parameter to call controller methods without notifying listeners.

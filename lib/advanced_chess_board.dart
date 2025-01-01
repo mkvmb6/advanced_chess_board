@@ -17,6 +17,7 @@ import 'widgets/highlight_overlay.dart';
 class AdvancedChessBoard extends StatefulWidget {
   final Color lightSquareColor;
   final Color darkSquareColor;
+  final Color? kingBackgroundColorOnCheckmate;
   final String? initialFEN;
   final PlayerColor boardOrientation;
   final ChessBoardController controller;
@@ -34,6 +35,7 @@ class AdvancedChessBoard extends StatefulWidget {
     this.enableMoves = true,
     this.highlightLastMove = true,
     this.arrows = const [],
+    this.kingBackgroundColorOnCheckmate,
   });
 
   @override
@@ -166,6 +168,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
                 ),
                 if (square == selectedSquare && hasPiece)
                   _buildSelectedPieceOverlay(),
+                if (piece != null) _buildCheckmateKingOverlay(piece),
                 if (_isSquarePartOfValidMoves(legalMoves, square))
                   HighlightOverlay(hasPiece: hasPiece, squareSize: squareSize),
                 if (widget.highlightLastMove && game.history.isNotEmpty)
@@ -184,6 +187,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     final double squareSize,
     final chess.Piece piece,
   ) {
+    const dragFeedbackScaleFactor = 1.15;
     return Draggable<String>(
       data: square,
       maxSimultaneousDrags: widget.enableMoves ? null : 0,
@@ -193,18 +197,16 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
           isPieceDragging = true;
         });
       },
-      onDragEnd: (_) => setState(() {
-        isPieceDragging = false;
-      }),
-      feedback: SizedBox(
-        width: squareSize,
-        height: squareSize,
-        child: ChessPieceWidget(
-          piece: piece,
-          squareSize: squareSize,
-          isDragging: isPieceDragging,
-          isBoardEnabled: widget.enableMoves,
-        ),
+      onDragEnd: (_) {
+        setState(() {
+          isPieceDragging = false;
+        });
+      },
+      feedback: ChessPieceWidget(
+        piece: piece,
+        squareSize: squareSize * dragFeedbackScaleFactor,
+        isDragging: isPieceDragging,
+        isBoardEnabled: widget.enableMoves,
       ),
       childWhenDragging: Container(),
       // Empty space while dragging
@@ -304,6 +306,18 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     if (square == lastMove.fromAlgebraic || square == lastMove.toAlgebraic) {
       return Container(
         color: Colors.yellow.withAlpha(128),
+      );
+    }
+    return Container();
+  }
+
+  Widget _buildCheckmateKingOverlay(final chess.Piece piece) {
+    if (game.in_checkmate &&
+        piece.type == chess.PieceType.KING &&
+        piece.color == game.turn) {
+      return Container(
+        color:
+            widget.kingBackgroundColorOnCheckmate ?? Colors.red.withAlpha(155),
       );
     }
     return Container();

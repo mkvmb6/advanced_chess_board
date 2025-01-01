@@ -7,71 +7,43 @@ Widget getChessPieceWidget(final Piece chessPiece) {
   if (chessPiece.color == Color.WHITE) {
     switch (chessPiece.type) {
       case PieceType.BISHOP:
-        return Image.asset(
-          PieceImages.whiteBishop,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.whiteBishop);
       case PieceType.KING:
-        return Image.asset(
-          PieceImages.whiteKing,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.whiteKing);
       case PieceType.KNIGHT:
-        return Image.asset(
-          PieceImages.whiteKnight,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.whiteKnight);
       case PieceType.PAWN:
-        return Image.asset(
-          PieceImages.whitePawn,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.whitePawn);
       case PieceType.QUEEN:
-        return Image.asset(
-          PieceImages.whiteQueen,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.whiteQueen);
       case PieceType.ROOK:
-        return Image.asset(
-          PieceImages.whiteRook,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.whiteRook);
     }
   } else {
     switch (chessPiece.type) {
       case PieceType.BISHOP:
-        return Image.asset(
-          PieceImages.blackBishop,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.blackBishop);
       case PieceType.KING:
-        return Image.asset(
-          PieceImages.blackKing,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.blackKing);
       case PieceType.KNIGHT:
-        return Image.asset(
-          PieceImages.blackKnight,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.blackKnight);
       case PieceType.PAWN:
-        return Image.asset(
-          PieceImages.blackPawn,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.blackPawn);
       case PieceType.QUEEN:
-        return Image.asset(
-          PieceImages.blackQueen,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.blackQueen);
       case PieceType.ROOK:
-        return Image.asset(
-          PieceImages.blackRook,
-          package: packageName,
-        );
+        return _getPieceImageWidget(PieceImages.blackRook);
     }
   }
   return const Text("No piece found");
+}
+
+Widget _getPieceImageWidget(final assetPath) {
+  return Image.asset(
+    assetPath,
+    package: packageName,
+    fit: BoxFit.contain,
+  );
 }
 
 String pieceTypeToString(final PieceType pieceType) {
