@@ -26,38 +26,47 @@ class ChessBoardController extends ChangeNotifier {
     }
   }
 
-  void resetBoard() {
+  void resetBoard({final bool notify = true}) {
     game.reset();
-    _notifyListeners();
+    if (notify) {
+      _notifyListeners();
+    }
   }
 
   bool makeMove({
     required final String from,
     required final String to,
     final String? promotion,
+    final bool notify = true,
   }) {
     final moveMade = promotion != null
         ? game.move({fromKey: from, toKey: to, promotionKey: promotion})
         : game.move({fromKey: from, toKey: to});
     if (moveMade) {
-      _notifyListeners();
+      if (notify) {
+        _notifyListeners();
+      }
       return true;
     }
     return false;
   }
 
-  void undo() {
+  void undo({final bool notify = true}) {
     game.undo();
-    _notifyListeners();
+    if (notify) {
+      _notifyListeners();
+    }
   }
 
   bool isCheckmate() {
     return game.in_checkmate;
   }
 
-  void loadGameFromFEN(final String fen) {
+  void loadGameFromFEN(final String fen, {final bool notify = true}) {
     game.load(fen);
-    _notifyListeners();
+    if (notify) {
+      _notifyListeners();
+    }
   }
 
   String get fen => game.fen;

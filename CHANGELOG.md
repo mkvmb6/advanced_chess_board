@@ -1,7 +1,11 @@
+## 2.2.0
+
+* Added parameter to call controller methods without notifying listeners.
+
 ## 2.1.1
 
 * Changed colors of file and rank text to inverted colors of squares.
- 
+
 ## 2.1.0
 
 * Added the feature so that squares related to last played move are highlighted by default.

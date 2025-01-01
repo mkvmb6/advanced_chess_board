@@ -1,6 +1,6 @@
 name: advanced_chess_board
 description: "A modern looking chess board with advanced features like highlighting the move possibilities, drag-drop pieces, draw arrows etc."
-version: 2.1.1
+version: 2.2.0
 homepage: "https://github.com/mkvmb6/advanced_chess_board"
 
 environment:
