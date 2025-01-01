@@ -52,8 +52,7 @@ class ChessSquare extends StatelessWidget {
       child: Text(
         rank,
         style: TextStyle(
-            color: invertColor.withAlpha(200),
-            fontSize: squareSize * 0.18),
+            color: invertColor.withAlpha(200), fontSize: squareSize * 0.18),
       ),
     );
   }

@@ -5,7 +5,7 @@ class PieceImages {
   static const String blackQueen = "assets/pieces/bq.png";
   static const String blackKing = "assets/pieces/bk.png";
   static const String blackPawn = "assets/pieces/bp.png";
-  
+
   static const String whiteRook = "assets/pieces/wr.png";
   static const String whiteBishop = "assets/pieces/wb.png";
   static const String whiteKnight = "assets/pieces/wn.png";
