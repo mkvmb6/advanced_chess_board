@@ -117,7 +117,14 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
         final isLightSquare = (row % 2) == (col % 2);
         final squareColor =
             isLightSquare ? widget.lightSquareColor : widget.darkSquareColor;
-        return _buildSquareWithDragTarget(square, squareColor, squareSize);
+        final invertColor =
+            isLightSquare ? widget.darkSquareColor : widget.lightSquareColor;
+        return _buildSquareWithDragTarget(
+          square,
+          squareColor,
+          invertColor,
+          squareSize,
+        );
       },
     );
   }
@@ -125,6 +132,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   Widget _buildSquareWithDragTarget(
     final String square,
     final Color squareColor,
+    final Color invertColor,
     final double squareSize,
   ) {
     final piece = game.get(square);
@@ -151,6 +159,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
               children: [
                 ChessSquare(
                   color: squareColor,
+                  invertColor: invertColor,
                   square: square,
                   boardOrientation: widget.boardOrientation,
                   squareSize: squareSize,
@@ -211,7 +220,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
 
   Widget _buildSelectedPieceOverlay() {
     return Container(
-      color: Colors.yellow.withOpacity(0.6),
+      color: Colors.yellow.withAlpha(155),
     );
   }
 
@@ -294,7 +303,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     final lastMove = game.history.last.move;
     if (square == lastMove.fromAlgebraic || square == lastMove.toAlgebraic) {
       return Container(
-        color: Colors.yellow.withOpacity(0.5),
+        color: Colors.yellow.withAlpha(128),
       );
     }
     return Container();

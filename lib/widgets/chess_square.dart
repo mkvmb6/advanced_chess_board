@@ -4,6 +4,7 @@ import '../models/enums.dart';
 
 class ChessSquare extends StatelessWidget {
   final Color color;
+  final Color invertColor;
   final String square;
   final PlayerColor boardOrientation;
   final double squareSize;
@@ -11,6 +12,7 @@ class ChessSquare extends StatelessWidget {
   const ChessSquare({
     super.key,
     required this.color,
+    required this.invertColor,
     required this.square,
     required this.boardOrientation,
     required this.squareSize,
@@ -50,8 +52,7 @@ class ChessSquare extends StatelessWidget {
       child: Text(
         rank,
         style: TextStyle(
-            color: Colors.black26,
-            fontWeight: FontWeight.bold,
+            color: invertColor.withAlpha(200),
             fontSize: squareSize * 0.18),
       ),
     );

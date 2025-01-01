@@ -9,7 +9,7 @@ class ChessArrow {
     required this.startSquare,
     required this.endSquare,
     Color? color,
-  }) : color = color ?? Colors.amber.withOpacity(0.5);
+  }) : color = color ?? Colors.amber.withAlpha(128);
 
   @override
   bool operator ==(Object other) {
