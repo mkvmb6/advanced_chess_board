@@ -1,7 +1,4 @@
 import 'package:advanced_chess_board/advanced_chess_board.dart';
-import 'package:advanced_chess_board/chess_board_controller.dart';
-import 'package:advanced_chess_board/models/chess_arrow.dart';
-import 'package:advanced_chess_board/models/enums.dart';
 import 'package:flutter/material.dart';
 
 void main() {

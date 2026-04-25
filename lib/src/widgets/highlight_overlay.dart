@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 
+/// A translucent hint drawn on a square to indicate it is a legal
+/// destination for the currently-selected piece.
+///
+/// Two visual styles:
+/// - a small centered dot, when [hasPiece] is `false`;
+/// - a hollow ring, when [hasPiece] is `true` (hinting a capture).
 class HighlightOverlay extends StatelessWidget {
+  /// Creates a highlight overlay.
   const HighlightOverlay({
     super.key,
     required this.squareSize,
     required this.hasPiece,
   });
 
+  /// Size of the underlying square in logical pixels.
   final double squareSize;
+
+  /// Whether the square already contains a piece (capture hint).
   final bool hasPiece;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final smallDotSize = squareSize * 0.3;
     final circleSize = squareSize * 0.98;
     return Align(
-      alignment: Alignment.center,
       child: hasPiece
           ? Container(
               width: circleSize,

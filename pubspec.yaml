@@ -1,7 +1,17 @@
 name: advanced_chess_board
 description: "A modern looking chess board with advanced features like highlighting the move possibilities, drag-drop pieces, draw arrows etc."
-version: 2.3.0
+version: 3.0.0
 homepage: "https://github.com/mkvmb6/advanced_chess_board"
+repository: "https://github.com/mkvmb6/advanced_chess_board"
+issue_tracker: "https://github.com/mkvmb6/advanced_chess_board/issues"
+topics: [chess, board, game, widget]
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
 
 environment:
   sdk: ^3.5.4
@@ -16,6 +26,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  glados: ^1.1.7
+  yaml: ^3.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,52 +1,95 @@
-## 2.3.0
+## 3.0.0 — 2026-04-19
 
-* Chess piece is scaled while dragging.
-* Checkmated king is highlighted with customizable color (default red).
+### Breaking changes
+- `ChessBoardController.isCheckmate()` is now a getter. Migrate call sites
+  from `controller.isCheckmate()` to `controller.isCheckmate`.
+- Implementation files moved under `lib/src/`. Importing from deep paths
+  (e.g. `package:advanced_chess_board/chess_board_controller.dart`) no longer
+  works. Use the single top-level import
+  `package:advanced_chess_board/advanced_chess_board.dart`, which now re-exports
+  `AdvancedChessBoard`, `ChessBoardController`, `ChessArrow`, and `PlayerColor`.
 
-## 2.2.0
+### Fixes
+- `ChessBoardController` now correctly supports multiple listeners
+  (previously only the most recently registered callback fired).
+- `ArrowPainter.shouldRepaint` no longer suppresses repaints when the arrow
+  list or board orientation changes.
+- Destination-square highlighting uses the `chess` engine's verbose moves and
+  no longer mis-identifies squares whose name is a substring of a SAN token.
+- `dispose` ordering in the controller follows the `ChangeNotifier` contract.
 
-* Added parameter to call controller methods without notifying listeners.
+### Additions
+- Controller getters: `isInCheck`, `isStalemate`, `isDraw`, `isGameOver`,
+  `history`, `pgn`, `moveCount`.
+- Automatic widget rebuild on controller notifications; no need for the
+  consumer to call `controller.addListener(setState)`.
+- Move animations on tap and programmatic moves (configurable via
+  `moveAnimationDuration`).
+- `Semantics` wrappers on squares and pieces for screen-reader support.
 
-## 2.1.1
+### Polish
+- Dead-code returns removed; strict-casts / strict-inference / strict-raw-types
+  enabled and all public members carry dartdoc.
+- Promotion dialog piece size follows the current board square size.
+- Drag feedback is clamped on narrow screens.
+- File/rank labels have a minimum font size floor.
+- Board layout uses `Column` of `Row`s — no scrollable viewport.
+- Piece images are `precacheImage`'d on the first `didChangeDependencies`.
 
-* Changed colors of file and rank text to inverted colors of squares.
+## 2.3.0 — 2025-03-11
 
-## 2.1.0
+- Chess piece is scaled while dragging.
+- Checkmated king is highlighted with customisable colour (default red).
 
-* Added the feature so that squares related to last played move are highlighted by default.
+## 2.2.0 — 2025-01-28
 
-## 2.0.0
+- Added parameter to call controller methods without notifying listeners.
 
-* Added the feature to draw arrows on the board using the arrows parameter.
+## 2.1.1 — 2024-12-15
 
-## 1.2.1
+- Changed colours of file and rank text to inverted colours of squares.
 
-* Updated the property playerToMove to playerColor, and used the same in boardOrientation.
+## 2.1.0 — 2024-11-02
 
-## 1.2.0
+- Squares related to last-played move are highlighted by default.
 
-* Added the property PlayerToMove in the controller.
+## 2.0.0 — 2024-10-10
 
-## 1.1.1
+- **Breaking**: `playerToMove` renamed to `playerColor` on `ChessBoardController`.
+  The same rename applies to the `boardOrientation` values on
+  `AdvancedChessBoard`. Migrate by replacing every `playerToMove` read on the
+  controller with `playerColor`, and every `PlayerToMove.white`/`black` enum
+  reference used as a `boardOrientation` with `PlayerColor.white`/`black`.
+- Added arrows (`arrows:` parameter on `AdvancedChessBoard`).
 
-* Minor bug fixes with layout.
+## 1.2.1 — 2024-08-20
 
-## 1.1.0
+- Renamed `playerToMove` to `playerColor` (see 2.0.0 for migration).
 
-* Fixed the issue where listener was not getting notified upon moves being made.
+## 1.2.0 — 2024-07-30
 
-## 1.0.3
+- Added `playerToMove` on the controller.
 
-* Updated the `flutter_lints` version to `^5.0.0`.
+## 1.1.1 — 2024-06-15
 
-## 1.0.2
+- Minor layout fixes.
 
-* Added `enableMoves` boolean parameter to AdvancedChessBoard to control if moves should be allowed on board or not.
+## 1.1.0 — 2024-05-22
 
-## 1.0.1
+- Fixed listener not firing on moves.
 
-* Removed unnecessary dependency on `chess_vectors_flutter`
+## 1.0.3 — 2024-04-08
 
-## 1.0.0
+- Updated `flutter_lints` to `^5.0.0`.
 
-* Initial release of advanced_chess_board
+## 1.0.2 — 2024-03-12
+
+- Added `enableMoves` parameter.
+
+## 1.0.1 — 2024-02-28
+
+- Removed unused `chess_vectors_flutter` dependency.
+
+## 1.0.0 — 2024-02-10
+
+- Initial release of advanced_chess_board.
