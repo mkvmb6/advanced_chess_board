@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/chess_arrow.dart';
 import '../models/enums.dart';
+import 'arrow_geometry.dart';
 
 /// Paints [ChessArrow] annotations over the chess board.
 ///
@@ -25,8 +26,10 @@ class ArrowPainter extends CustomPainter {
   @override
   void paint(final Canvas canvas, final Size size) {
     for (final arrow in arrows) {
-      final (sourceRow, sourceCol) = getIndexFromSquare(arrow.startSquare);
-      final (destRow, destCol) = getIndexFromSquare(arrow.endSquare);
+      final (sourceRow, sourceCol) =
+          getIndexFromSquare(arrow.startSquare, boardOrientation);
+      final (destRow, destCol) =
+          getIndexFromSquare(arrow.endSquare, boardOrientation);
       final blockSize = size.width / 8;
 
       // Calculate centers of the source and destination squares.
@@ -84,18 +87,6 @@ class ArrowPainter extends CustomPainter {
       final arrowheadPaint = Paint()..color = arrow.color!;
       canvas.drawPath(arrowheadPath, arrowheadPaint);
     }
-  }
-
-  /// Maps an algebraic [square] (e.g. `"e4"`) to a `(row, col)` index pair in
-  /// the board's visual coordinate space, accounting for [boardOrientation].
-  (int, int) getIndexFromSquare(final String square) {
-    var row = 8 - square[1].codeUnitAt(0) + 48;
-    var col = square[0].codeUnitAt(0) - 97;
-    if (boardOrientation == PlayerColor.black) {
-      row = 7 - row;
-      col = 7 - col;
-    }
-    return (row, col);
   }
 
   @override

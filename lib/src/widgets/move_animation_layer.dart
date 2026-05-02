@@ -2,6 +2,7 @@ import 'package:chess/chess.dart' as chess;
 import 'package:flutter/material.dart';
 
 import '../models/enums.dart';
+import '../piece_set/piece_set.dart';
 import 'chess_piece_widget.dart';
 
 /// An overlay layer that animates a chess piece from one square to another
@@ -20,6 +21,7 @@ class MoveAnimationLayer extends StatefulWidget {
     required this.orientation,
     required this.duration,
     required this.onComplete,
+    required this.pieceSet,
   });
 
   /// Algebraic source square, e.g. `"e2"`.
@@ -42,6 +44,9 @@ class MoveAnimationLayer extends StatefulWidget {
 
   /// Fired once the animation completes.
   final VoidCallback onComplete;
+
+  /// The piece set used to render the animating piece.
+  final PieceSet pieceSet;
 
   @override
   State<MoveAnimationLayer> createState() => _MoveAnimationLayerState();
@@ -93,6 +98,7 @@ class _MoveAnimationLayerState extends State<MoveAnimationLayer> {
                 piece: widget.piece,
                 squareSize: widget.squareSize,
                 isBoardEnabled: false,
+                pieceSet: widget.pieceSet,
               ),
             ),
           ],

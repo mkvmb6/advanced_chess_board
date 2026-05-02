@@ -24,6 +24,112 @@ through a `ChangeNotifier`-based `ChessBoardController`.
   `controller.addListener(setState)` boilerplate.
 - Screen-reader support via `Semantics` wrappers on squares and pieces.
 
+### Theming
+
+Pass a `BoardTheme` preset or a custom theme to restyle every colour the board
+paints with one value:
+
+```dart
+AdvancedChessBoard(
+  controller: controller,
+  boardTheme: BoardTheme.brown,
+)
+```
+
+Five built-in presets: `classicGreen` (default), `brown`, `blue`, `purple`,
+`monochrome`. Use `copyWith` for fine-grained overrides:
+
+```dart
+boardTheme: BoardTheme.classicGreen.copyWith(
+  selectionColor: Colors.blue.withAlpha(155),
+)
+```
+
+Legacy `lightSquareColor`, `darkSquareColor`, and `kingBackgroundColorOnCheckmate`
+parameters still work and take precedence when explicitly passed.
+
+### Piece sets
+
+Swap the bundled Chess.com PNGs for a different piece set without forking the
+package:
+
+```dart
+AdvancedChessBoard(
+  controller: controller,
+  pieceSet: PieceSet.fromAssetMap({
+    (color: PlayerColor.white, type: chess.PieceType.KING):
+        const AssetImage('assets/pieces/wk.png'),
+    // ... all 12 (color, type) pairs
+  }),
+)
+```
+
+The default `PieceSet.chessDotCom` wraps the 12 `assets/pieces/*.png` files
+bundled with this package.
+
+### Coordinates
+
+Toggle coordinate-label rendering mode:
+
+```dart
+AdvancedChessBoard(
+  controller: controller,
+  coordinates: CoordinateLabels.outside, // labels in gutters
+)
+```
+
+Three modes: `inside` (3.0.0 default), `outside` (labels in gutters outside
+the 8×8 grid), `none` (no labels). The `AspectRatio(1)` contract still applies
+to the playing grid in every mode.
+
+### Sound effects
+
+Hook sound effects into moves without bundling audio assets:
+
+```dart
+class MySoundPack extends SoundPack {
+  @override
+  Future<void> play(SoundEvent event) async {
+    // Route to your preferred audio backend, e.g. package:audioplayers.
+    await audioPlayer.play(AssetSource('sounds/${event.name}.mp3'));
+  }
+}
+
+AdvancedChessBoard(
+  controller: controller,
+  soundPack: MySoundPack(),
+)
+```
+
+Priority order: `gameEnd > promote > castle > check > capture > move`. The
+default `SilentSoundPack` produces no sound and has no audio dependencies.
+
+### Hint arrows
+
+Show an engine-suggested move arrow that auto-dismisses on the next move:
+
+```dart
+AdvancedChessBoard(
+  controller: controller,
+  hintArrow: HintArrow(
+    startSquare: 'g1',
+    endSquare: 'f3',
+    duration: Duration(seconds: 4), // optional auto-dismiss
+  ),
+)
+```
+
+The hint arrow uses a dashed shaft and stroke-only outlined arrowhead in lime
+green, visually distinct from user-drawn `ChessArrow`s.
+
+### Drag legality indicator
+
+The drag legality indicator fires automatically whenever `enableMoves: true`
+(the default) and a drag is in progress. A thickened ring appears on legal
+destination squares under the pointer; a translucent red tint appears on
+non-source non-legal squares. Customise via `boardTheme.dragLegalRingColor`
+and `boardTheme.dragIllegalTintColor`.
+
 ## Getting started
 
 Add the dependency:
@@ -151,8 +257,8 @@ breaking changes to note:
 
 - No built-in chess clock — wire your own `Ticker` / `Timer` against
   `controller.addListener`.
-- Piece theming currently requires forking the `assets/pieces/` directory;
-  per-piece widget overrides are not yet exposed.
+- Premoves are tracked in a separate spec (`chess-board-premoves`) and are
+  not yet available.
 
 ## Credits
 

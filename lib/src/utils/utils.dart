@@ -1,86 +1,61 @@
-import 'package:chess/chess.dart';
+import 'package:chess/chess.dart' as chess;
 import 'package:flutter/material.dart';
 
-import '../constants/global_constants.dart';
-import '../constants/image_constants.dart';
+import '../models/enums.dart';
+import '../piece_set/piece_set.dart';
 
-/// Returns a [Widget] rendering [chessPiece] as a `package:advanced_chess_board`
-/// asset image.
-Widget getChessPieceWidget(final Piece chessPiece) {
-  if (chessPiece.color == Color.WHITE) {
-    switch (chessPiece.type) {
-      case PieceType.BISHOP:
-        return _getPieceImageWidget(PieceImages.whiteBishop);
-      case PieceType.KING:
-        return _getPieceImageWidget(PieceImages.whiteKing);
-      case PieceType.KNIGHT:
-        return _getPieceImageWidget(PieceImages.whiteKnight);
-      case PieceType.PAWN:
-        return _getPieceImageWidget(PieceImages.whitePawn);
-      case PieceType.QUEEN:
-        return _getPieceImageWidget(PieceImages.whiteQueen);
-      case PieceType.ROOK:
-        return _getPieceImageWidget(PieceImages.whiteRook);
-    }
-    throw StateError('Unreachable: unknown white piece type ${chessPiece.type}');
-  }
-  switch (chessPiece.type) {
-    case PieceType.BISHOP:
-      return _getPieceImageWidget(PieceImages.blackBishop);
-    case PieceType.KING:
-      return _getPieceImageWidget(PieceImages.blackKing);
-    case PieceType.KNIGHT:
-      return _getPieceImageWidget(PieceImages.blackKnight);
-    case PieceType.PAWN:
-      return _getPieceImageWidget(PieceImages.blackPawn);
-    case PieceType.QUEEN:
-      return _getPieceImageWidget(PieceImages.blackQueen);
-    case PieceType.ROOK:
-      return _getPieceImageWidget(PieceImages.blackRook);
-  }
-  throw StateError('Unreachable: unknown black piece type ${chessPiece.type}');
+/// Maps a [chess.Color] to the corresponding [PlayerColor].
+PlayerColor _playerColorOf(final chess.Color c) {
+  return c == chess.Color.WHITE ? PlayerColor.white : PlayerColor.black;
 }
 
-Widget _getPieceImageWidget(final String assetPath) {
-  return Image.asset(
-    assetPath,
-    package: packageName,
+/// Returns a [Widget] rendering [piece] using the given [set].
+///
+/// Delegates to [set.imageFor] to obtain the [ImageProvider], then wraps it
+/// in an [Image] with [BoxFit.contain]. This replaces the old
+/// `getChessPieceWidget` helper and decouples piece rendering from the
+/// hard-coded asset paths.
+Widget buildPieceWidget(final chess.Piece piece, final PieceSet set) {
+  return Image(
+    image: set.imageFor(_playerColorOf(piece.color), piece.type),
     fit: BoxFit.contain,
   );
 }
 
 /// Returns the single-character piece letter used by the `chess` package's
 /// move API (`'q'`, `'r'`, `'b'`, `'n'`, `'p'`, `'k'`).
-String pieceTypeToString(final PieceType pieceType) {
+String pieceTypeToString(final chess.PieceType pieceType) {
   switch (pieceType) {
-    case PieceType.BISHOP:
+    case chess.PieceType.BISHOP:
       return 'b';
-    case PieceType.KING:
+    case chess.PieceType.KING:
       return 'k';
-    case PieceType.KNIGHT:
+    case chess.PieceType.KNIGHT:
       return 'n';
-    case PieceType.PAWN:
+    case chess.PieceType.PAWN:
       return 'p';
-    case PieceType.QUEEN:
+    case chess.PieceType.QUEEN:
       return 'q';
-    case PieceType.ROOK:
+    case chess.PieceType.ROOK:
       return 'r';
+    default:
+      throw StateError('Unreachable: unknown piece type $pieceType');
   }
-  throw StateError('Unreachable: unknown piece type $pieceType');
 }
 
 /// Returns a human-readable descriptive label for [piece], e.g. "white pawn"
 /// or "black knight". Used by the board's [Semantics] wrappers.
-String pieceSemanticsLabel(final Piece? piece) {
+String pieceSemanticsLabel(final chess.Piece? piece) {
   if (piece == null) return 'empty';
-  final colorWord = piece.color == Color.WHITE ? 'white' : 'black';
+  final colorWord =
+      piece.color == chess.Color.WHITE ? 'white' : 'black';
   final typeWord = switch (piece.type) {
-    PieceType.PAWN => 'pawn',
-    PieceType.KNIGHT => 'knight',
-    PieceType.BISHOP => 'bishop',
-    PieceType.ROOK => 'rook',
-    PieceType.QUEEN => 'queen',
-    PieceType.KING => 'king',
+    chess.PieceType.PAWN => 'pawn',
+    chess.PieceType.KNIGHT => 'knight',
+    chess.PieceType.BISHOP => 'bishop',
+    chess.PieceType.ROOK => 'rook',
+    chess.PieceType.QUEEN => 'queen',
+    chess.PieceType.KING => 'king',
     _ => 'piece',
   };
   return '$colorWord $typeWord';

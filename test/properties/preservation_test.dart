@@ -22,10 +22,10 @@
 import 'dart:math' as math;
 
 import 'package:advanced_chess_board/advanced_chess_board.dart';
-// The painter lives under `lib/src/` and is intentionally NOT re-exported
-// through the barrel; this preservation test imports it directly to poke at
-// its geometry, mirroring `test/painter/arrow_painter_test.dart`.
-import 'package:advanced_chess_board/src/utils/arrow_painter.dart';
+// arrow_geometry.dart is intentionally NOT re-exported through the barrel;
+// this preservation test imports it directly to poke at its geometry,
+// mirroring `test/painter/arrow_painter_test.dart`.
+import 'package:advanced_chess_board/src/utils/arrow_geometry.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart' as ft;
@@ -245,15 +245,9 @@ void main() {
         const boardSide = 320.0;
         const blockSize = boardSide / 8;
 
-        // Reference painter to exercise `getIndexFromSquare` under the same
-        // orientation the engine uses at paint time.
-        final painter = ArrowPainter(
-          <ChessArrow>[ChessArrow(startSquare: from, endSquare: to)],
-          orientation,
-        );
-
-        final (srcRow, srcCol) = painter.getIndexFromSquare(from);
-        final (dstRow, dstCol) = painter.getIndexFromSquare(to);
+        // Use the top-level helper from arrow_geometry.dart directly.
+        final (srcRow, srcCol) = getIndexFromSquare(from, orientation);
+        final (dstRow, dstCol) = getIndexFromSquare(to, orientation);
 
         // All index coordinates must stay inside `[0, 7]`.
         for (final idx in <int>[srcRow, srcCol, dstRow, dstCol]) {

@@ -1,3 +1,45 @@
+## 3.1.0 — 2026-05-02
+
+### Additions
+- `BoardTheme` value type bundling every paintable colour, with
+  `BoardTheme.classicGreen` (default), `.brown`, `.blue`, `.purple`,
+  `.monochrome` presets and a `copyWith`. Pass via the new
+  `AdvancedChessBoard(boardTheme: ...)` parameter. Legacy
+  `lightSquareColor` / `darkSquareColor` / `kingBackgroundColorOnCheckmate`
+  continue to work and take precedence when explicitly passed.
+- `PieceSet` abstraction with a single `imageFor(PlayerColor,
+  chess.PieceType)` lookup and a `PieceSet.fromAssetMap(...)` convenience
+  factory. Default `PieceSet.chessDotCom` wraps the bundled pieces. Pass
+  via the new `AdvancedChessBoard(pieceSet: ...)` parameter.
+- `CoordinateLabels` enum with `inside` (default, 3.0.0 behaviour),
+  `outside` (labels in gutters outside the 8×8 playing grid), and `none`
+  (no labels, no gutter). Pass via the new `AdvancedChessBoard(coordinates:
+  ...)` parameter. The `AspectRatio(1)` contract still applies to the
+  playing grid in every mode.
+- `SoundEvent` / `SoundPack` interface and `SilentSoundPack` default for
+  move audio. Priority-ordered classification:
+  `gameEnd > promote > castle > check > capture > move`. No bundled audio,
+  no plugin dependency added — consumers plug in their own backend (e.g.
+  `package:audioplayers`). Pass via the new
+  `AdvancedChessBoard(soundPack: ...)` parameter.
+- `HintArrow` value type for engine / hint-API suggestion arrows, rendered
+  with a dashed shaft and stroke-only outlined arrowhead in the new
+  `BoardTheme.hintArrowColor`. Auto-dismisses on the next successful
+  move, or after an optional `Duration`. Pass via the new
+  `AdvancedChessBoard(hintArrow: ...)` parameter.
+- Live legality indicator during drag: a drag-legal ring appears on
+  legal-destination squares currently under the pointer; a drag-illegal
+  tint appears on non-source non-legal squares. Gated off when
+  `enableMoves: false`.
+
+### Polish
+- `HighlightOverlay` colour now threads through `BoardTheme.legalDestinationColor`
+  — the default remains pixel-identical to 3.0.0.
+- `AdvancedChessBoard` now re-precaches the active `PieceSet`'s 12
+  `ImageProvider`s on `didUpdateWidget` when `pieceSet` changes.
+- New `BoardTheme.kingCheckColor` (default `null` — no tint, matches
+  3.0.0) makes in-check highlighting themable without a breaking change.
+
 ## 3.0.0 — 2026-04-19
 
 ### Breaking changes

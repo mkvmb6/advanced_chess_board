@@ -1,6 +1,7 @@
 import 'package:chess/chess.dart' as chess;
 import 'package:flutter/material.dart';
 
+import '../piece_set/piece_set.dart';
 import '../utils/utils.dart';
 
 /// A single chess piece tile sized to fit the board square it occupies.
@@ -16,6 +17,7 @@ class ChessPieceWidget extends StatelessWidget {
     required this.piece,
     required this.squareSize,
     required this.isBoardEnabled,
+    required this.pieceSet,
     this.isDragging = false,
     this.onTap,
   });
@@ -33,6 +35,9 @@ class ChessPieceWidget extends StatelessWidget {
   /// `true` when the board accepts moves; controls whether the piece shows
   /// a `grab` cursor.
   final bool isBoardEnabled;
+
+  /// The piece set used to obtain the [ImageProvider] for this piece.
+  final PieceSet pieceSet;
 
   /// Callback fired when the piece is tapped (pointer down).
   final VoidCallback? onTap;
@@ -56,7 +61,7 @@ class ChessPieceWidget extends StatelessWidget {
               onTapDown: (_) {
                 if (onTap != null) onTap!();
               },
-              child: getChessPieceWidget(piece),
+              child: buildPieceWidget(piece, pieceSet),
             ),
           ),
         ),
