@@ -62,7 +62,8 @@ void main() {
         ft.expect(
           classified,
           ft.equals(expected),
-          reason: 'classifySoundEvent must match oracle for move ${move.fromAlgebraic}->${move.toAlgebraic}',
+          reason:
+              'classifySoundEvent must match oracle for move ${move.fromAlgebraic}->${move.toAlgebraic}',
         );
       },
     );

@@ -47,8 +47,7 @@ String pieceTypeToString(final chess.PieceType pieceType) {
 /// or "black knight". Used by the board's [Semantics] wrappers.
 String pieceSemanticsLabel(final chess.Piece? piece) {
   if (piece == null) return 'empty';
-  final colorWord =
-      piece.color == chess.Color.WHITE ? 'white' : 'black';
+  final colorWord = piece.color == chess.Color.WHITE ? 'white' : 'black';
   final typeWord = switch (piece.type) {
     chess.PieceType.PAWN => 'pawn',
     chess.PieceType.KNIGHT => 'knight',

@@ -37,8 +37,7 @@ class _PainterInput {
   final PlayerColor orientation;
 
   @override
-  String toString() =>
-      'PainterInput(arrows=$arrows, orientation=$orientation)';
+  String toString() => 'PainterInput(arrows=$arrows, orientation=$orientation)';
 }
 
 extension _PainterInputGen on Any {
@@ -63,10 +62,8 @@ void main() {
     ).test(
       'prop_shouldRepaint_iff_semantic_change',
       (final _PainterInput oldInput, final _PainterInput newInput) {
-        final oldPainter =
-            ArrowPainter(oldInput.arrows, oldInput.orientation);
-        final newPainter =
-            ArrowPainter(newInput.arrows, newInput.orientation);
+        final oldPainter = ArrowPainter(oldInput.arrows, oldInput.orientation);
+        final newPainter = ArrowPainter(newInput.arrows, newInput.orientation);
 
         final semanticChange = oldInput.orientation != newInput.orientation ||
             !_arrowsEqual(oldInput.arrows, newInput.arrows);
@@ -74,8 +71,7 @@ void main() {
         ft.expect(
           newPainter.shouldRepaint(oldPainter),
           semanticChange,
-          reason:
-              'shouldRepaint must return `true` iff arrows differ OR '
+          reason: 'shouldRepaint must return `true` iff arrows differ OR '
               'orientation differs. '
               'old=$oldInput, new=$newInput, semanticChange=$semanticChange',
         );

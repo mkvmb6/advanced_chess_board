@@ -13,8 +13,7 @@ void main() {
   group('Coordinate label font floor', () {
     for (final double boardSize in <double>[80, 160, 320, 400]) {
       final squareSize = boardSize / 8;
-      final expectedFontSize =
-          math.max(kMinLabelFontSize, squareSize * 0.18);
+      final expectedFontSize = math.max(kMinLabelFontSize, squareSize * 0.18);
 
       testWidgets(
         'P1.14: inside labels at boardSize=$boardSize have fontSize=$expectedFontSize',

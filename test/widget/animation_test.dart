@@ -75,8 +75,7 @@ void main() {
       expect(
         layerFinder,
         findsOneWidget,
-        reason:
-            'A tap move must trigger an animation layer before the move '
+        reason: 'A tap move must trigger an animation layer before the move '
             'completes.',
       );
 
@@ -122,8 +121,7 @@ void main() {
       expect(
         relTop.dy,
         lessThan(maxY),
-        reason:
-            'At 50% of the animation the piece must have left the origin '
+        reason: 'At 50% of the animation the piece must have left the origin '
             '(relTop.dy must be below $maxY).',
       );
 
@@ -170,8 +168,7 @@ void main() {
       expect(
         find.byType(MoveAnimationLayer),
         findsNothing,
-        reason:
-            'After a drag-drop move, there must be no animation overlay — '
+        reason: 'After a drag-drop move, there must be no animation overlay — '
             'the drag feedback already provided the visual interpolation.',
       );
 

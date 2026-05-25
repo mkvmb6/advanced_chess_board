@@ -31,7 +31,8 @@ void main() {
       );
     });
 
-    testWidgets('board subtree has 8 Rows (one per rank)', (final tester) async {
+    testWidgets('board subtree has 8 Rows (one per rank)',
+        (final tester) async {
       final c = ChessBoardController();
       await tester.pumpWidget(
         MaterialApp(

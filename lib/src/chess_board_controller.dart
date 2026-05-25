@@ -35,9 +35,8 @@ class ChessBoardController extends ChangeNotifier {
   String get fen => _game.fen;
 
   /// The side to move.
-  PlayerColor get playerColor => _game.turn == chess.Color.WHITE
-      ? PlayerColor.white
-      : PlayerColor.black;
+  PlayerColor get playerColor =>
+      _game.turn == chess.Color.WHITE ? PlayerColor.white : PlayerColor.black;
 
   /// `true` when the side to move is in check.
   bool get isInCheck => _game.in_check;

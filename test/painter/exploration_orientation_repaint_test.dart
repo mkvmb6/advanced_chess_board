@@ -72,8 +72,7 @@ void main() {
       expect(
         newPainter.shouldRepaint(oldPainter),
         isTrue,
-        reason:
-            'Both arrow list and orientation changed; canvas MUST repaint. '
+        reason: 'Both arrow list and orientation changed; canvas MUST repaint. '
             'Unfixed code returns false because the inverted length branch '
             'short-circuits before the non-existent orientation check.',
       );

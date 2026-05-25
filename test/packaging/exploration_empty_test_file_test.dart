@@ -71,8 +71,7 @@ void main() {
       expect(
         hasDirectTest || hasSubTestImports,
         isTrue,
-        reason:
-            'Current test harness file must either invoke `test(`/'
+        reason: 'Current test harness file must either invoke `test(`/'
             '`testWidgets(` directly or import sub-test files that do.',
       );
     });

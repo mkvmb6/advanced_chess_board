@@ -58,8 +58,7 @@ void main() {
       expect(
         undated,
         isEmpty,
-        reason:
-            'Every release header in CHANGELOG.md must match '
+        reason: 'Every release header in CHANGELOG.md must match '
             '`## X.Y.Z — YYYY-MM(-DD)?`. Undated headers: $undated',
       );
     });

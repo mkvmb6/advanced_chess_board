@@ -57,8 +57,7 @@ void main() {
       await tester.tapAt(const Offset(200, 200));
 
       expect(tester.binding.hasScheduledFrame, isFalse,
-          reason:
-              'Tap with enableMoves: false must not schedule a rebuild — '
+          reason: 'Tap with enableMoves: false must not schedule a rebuild — '
               '_handleTap must early-return before any setState call.');
     });
 
@@ -77,8 +76,7 @@ void main() {
       await tester.tapAt(const Offset(200, 200));
 
       expect(tester.binding.hasScheduledFrame, isFalse,
-          reason:
-              'Tap on empty square with selectedSquare == null must not '
+          reason: 'Tap on empty square with selectedSquare == null must not '
               'schedule a rebuild — _handleTap must early-return.');
     });
 

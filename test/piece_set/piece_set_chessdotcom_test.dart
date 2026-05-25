@@ -13,18 +13,30 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('PieceSet.chessDotCom resolves to bundled assets', () {
     final expectedPaths = <({PlayerColor color, chess.PieceType type}), String>{
-      (color: PlayerColor.white, type: chess.PieceType.PAWN): PieceImages.whitePawn,
-      (color: PlayerColor.white, type: chess.PieceType.KNIGHT): PieceImages.whiteKnight,
-      (color: PlayerColor.white, type: chess.PieceType.BISHOP): PieceImages.whiteBishop,
-      (color: PlayerColor.white, type: chess.PieceType.ROOK): PieceImages.whiteRook,
-      (color: PlayerColor.white, type: chess.PieceType.QUEEN): PieceImages.whiteQueen,
-      (color: PlayerColor.white, type: chess.PieceType.KING): PieceImages.whiteKing,
-      (color: PlayerColor.black, type: chess.PieceType.PAWN): PieceImages.blackPawn,
-      (color: PlayerColor.black, type: chess.PieceType.KNIGHT): PieceImages.blackKnight,
-      (color: PlayerColor.black, type: chess.PieceType.BISHOP): PieceImages.blackBishop,
-      (color: PlayerColor.black, type: chess.PieceType.ROOK): PieceImages.blackRook,
-      (color: PlayerColor.black, type: chess.PieceType.QUEEN): PieceImages.blackQueen,
-      (color: PlayerColor.black, type: chess.PieceType.KING): PieceImages.blackKing,
+      (color: PlayerColor.white, type: chess.PieceType.PAWN):
+          PieceImages.whitePawn,
+      (color: PlayerColor.white, type: chess.PieceType.KNIGHT):
+          PieceImages.whiteKnight,
+      (color: PlayerColor.white, type: chess.PieceType.BISHOP):
+          PieceImages.whiteBishop,
+      (color: PlayerColor.white, type: chess.PieceType.ROOK):
+          PieceImages.whiteRook,
+      (color: PlayerColor.white, type: chess.PieceType.QUEEN):
+          PieceImages.whiteQueen,
+      (color: PlayerColor.white, type: chess.PieceType.KING):
+          PieceImages.whiteKing,
+      (color: PlayerColor.black, type: chess.PieceType.PAWN):
+          PieceImages.blackPawn,
+      (color: PlayerColor.black, type: chess.PieceType.KNIGHT):
+          PieceImages.blackKnight,
+      (color: PlayerColor.black, type: chess.PieceType.BISHOP):
+          PieceImages.blackBishop,
+      (color: PlayerColor.black, type: chess.PieceType.ROOK):
+          PieceImages.blackRook,
+      (color: PlayerColor.black, type: chess.PieceType.QUEEN):
+          PieceImages.blackQueen,
+      (color: PlayerColor.black, type: chess.PieceType.KING):
+          PieceImages.blackKing,
     };
 
     for (final entry in expectedPaths.entries) {
@@ -32,7 +44,8 @@ void main() {
       final type = entry.key.type;
       final expectedPath = entry.value;
 
-      test('chessDotCom.imageFor($color, $type) == AssetImage($expectedPath)', () {
+      test('chessDotCom.imageFor($color, $type) == AssetImage($expectedPath)',
+          () {
         final provider = PieceSet.chessDotCom.imageFor(color, type);
         expect(provider, isA<AssetImage>());
         final assetImage = provider as AssetImage;

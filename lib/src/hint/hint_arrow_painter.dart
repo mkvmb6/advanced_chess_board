@@ -30,8 +30,7 @@ class HintArrowPainter extends CustomPainter {
   void paint(final Canvas canvas, final Size size) {
     final (sourceRow, sourceCol) =
         getIndexFromSquare(arrow.startSquare, orientation);
-    final (destRow, destCol) =
-        getIndexFromSquare(arrow.endSquare, orientation);
+    final (destRow, destCol) = getIndexFromSquare(arrow.endSquare, orientation);
     final blockSize = size.width / 8;
 
     // Calculate centers of the source and destination squares.
@@ -97,14 +96,10 @@ class HintArrowPainter extends CustomPainter {
     final angle = atan2(dy, dx);
     final tipX = destX;
     final tipY = destY;
-    final baseX1 =
-        adjustedDestX - arrowheadSideLength * cos(angle - pi / 3);
-    final baseY1 =
-        adjustedDestY - arrowheadSideLength * sin(angle - pi / 3);
-    final baseX2 =
-        adjustedDestX - arrowheadSideLength * cos(angle + pi / 3);
-    final baseY2 =
-        adjustedDestY - arrowheadSideLength * sin(angle + pi / 3);
+    final baseX1 = adjustedDestX - arrowheadSideLength * cos(angle - pi / 3);
+    final baseY1 = adjustedDestY - arrowheadSideLength * sin(angle - pi / 3);
+    final baseX2 = adjustedDestX - arrowheadSideLength * cos(angle + pi / 3);
+    final baseY2 = adjustedDestY - arrowheadSideLength * sin(angle + pi / 3);
 
     final trianglePath = Path()
       ..moveTo(tipX, tipY)

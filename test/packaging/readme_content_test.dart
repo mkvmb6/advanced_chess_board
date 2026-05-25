@@ -30,8 +30,7 @@ void main() {
       expect(
         body,
         isNot(contains('arrow will be added')),
-        reason:
-            'README.md must no longer claim arrow support is coming — '
+        reason: 'README.md must no longer claim arrow support is coming — '
             'arrows shipped in 2.0.0.',
       );
     });
@@ -43,8 +42,7 @@ void main() {
       expect(
         tableRow.hasMatch(body),
         isTrue,
-        reason:
-            'README.md must contain at least one Markdown table (line with '
+        reason: 'README.md must contain at least one Markdown table (line with '
             'at least two `|` delimiters) — parameter/getter reference '
             'tables are required by §2.32.',
       );
@@ -67,8 +65,7 @@ void main() {
       expect(
         found.length,
         greaterThanOrEqualTo(3),
-        reason:
-            'README.md must reference at least three of the new '
+        reason: 'README.md must reference at least three of the new '
             'ChessBoardController getters. Found: $found',
       );
     });

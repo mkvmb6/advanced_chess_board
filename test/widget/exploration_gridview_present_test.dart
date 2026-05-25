@@ -54,8 +54,7 @@ void main() {
       expect(
         gridViewFinder,
         findsNothing,
-        reason:
-            'The 8x8 board layout must not use GridView. Unfixed code uses '
+        reason: 'The 8x8 board layout must not use GridView. Unfixed code uses '
             'GridView.builder which introduces a Scrollable viewport.',
       );
     });

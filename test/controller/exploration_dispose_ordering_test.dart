@@ -69,8 +69,7 @@ void main() {
       expect(
         caught,
         isNotNull,
-        reason:
-            'Registering a listener after dispose should raise a '
+        reason: 'Registering a listener after dispose should raise a '
             'FlutterError "used after disposed" — unfixed code may skip this '
             'check because the override does not delegate to super.',
       );

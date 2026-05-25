@@ -68,16 +68,14 @@ void main() {
       expect(
         e2AfterFinder,
         findsNothing,
-        reason:
-            'After makeMove(e2->e4) the Draggable<String> with data "e2" '
+        reason: 'After makeMove(e2->e4) the Draggable<String> with data "e2" '
             'must be gone. Unfixed code keeps it because the widget never '
             'rebuilt.',
       );
       expect(
         e4AfterFinder,
         findsOneWidget,
-        reason:
-            'After makeMove(e2->e4) a new Draggable<String> with data "e4" '
+        reason: 'After makeMove(e2->e4) a new Draggable<String> with data "e4" '
             'must exist. Unfixed code has none because the widget never '
             'rebuilt.',
       );

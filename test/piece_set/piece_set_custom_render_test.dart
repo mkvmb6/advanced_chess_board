@@ -12,8 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Map<({PlayerColor color, chess.PieceType type}), ImageProvider>
     _buildTransparentMap() {
-  final map =
-      <({PlayerColor color, chess.PieceType type}), ImageProvider>{};
+  final map = <({PlayerColor color, chess.PieceType type}), ImageProvider>{};
   for (final color in PlayerColor.values) {
     for (final type in const <chess.PieceType>[
       chess.PieceType.PAWN,

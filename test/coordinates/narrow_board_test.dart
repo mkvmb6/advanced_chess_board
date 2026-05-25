@@ -52,8 +52,7 @@ void main() {
               expect(
                 fontSize,
                 greaterThanOrEqualTo(kMinLabelFontSize),
-                reason:
-                    'Label "${label.data}" at width=$width should have '
+                reason: 'Label "${label.data}" at width=$width should have '
                     'fontSize >= kMinLabelFontSize',
               );
             }

@@ -34,9 +34,7 @@ void main() {
 
         // The checkmate tint should be rendered.
         final tintFinder = find.byWidgetPredicate(
-          (final w) =>
-              w is ColoredBox &&
-              w.color == const Color(0x9BF44336),
+          (final w) => w is ColoredBox && w.color == const Color(0x9BF44336),
         );
         expect(
           tintFinder,
@@ -85,8 +83,7 @@ void main() {
       'P2.6: in-check tint fires when kingCheckColor is non-null',
       (final WidgetTester tester) async {
         // White king in check from black queen.
-        const inCheckFen =
-            '4k3/8/8/8/8/8/8/4K2q w - - 0 1';
+        const inCheckFen = '4k3/8/8/8/8/8/8/4K2q w - - 0 1';
         final controller = ChessBoardController()
           ..loadGameFromFEN(inCheckFen, notify: false);
 
@@ -115,7 +112,8 @@ void main() {
           expect(
             tintFinder,
             findsOneWidget,
-            reason: 'In-check tint should be rendered when kingCheckColor is set',
+            reason:
+                'In-check tint should be rendered when kingCheckColor is set',
           );
         }
       },

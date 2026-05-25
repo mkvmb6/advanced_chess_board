@@ -65,18 +65,15 @@ void main() {
       () {
         // Starting castle-ready FEN: king on e1, rooks on a1/h1.
         final controller = ChessBoardController();
-        controller
-            .loadGameFromFEN('r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1');
+        controller.loadGameFromFEN('r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1');
 
         // Kingside: king on e1 → g1 (castle short).
-        final shortAccepted =
-            controller.makeMove(from: 'e1', to: 'g1');
+        final shortAccepted = controller.makeMove(from: 'e1', to: 'g1');
         expect(shortAccepted, isTrue,
             reason: 'Short castling (e1->g1) must be legal.');
 
         // Reload and try queenside.
-        controller
-            .loadGameFromFEN('r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1');
+        controller.loadGameFromFEN('r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1');
         final longAccepted = controller.makeMove(from: 'e1', to: 'c1');
         expect(longAccepted, isTrue,
             reason: 'Long castling (e1->c1) must be legal.');

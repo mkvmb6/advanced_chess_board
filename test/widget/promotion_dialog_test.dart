@@ -14,8 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Promotion dialog', () {
     for (final double squareSize in <double>[28, 64, 96, 128]) {
-      testWidgets(
-          'P1.13 §2.24: dialog pieces sized to squareSize=$squareSize',
+      testWidgets('P1.13 §2.24: dialog pieces sized to squareSize=$squareSize',
           (final tester) async {
         final c = ChessBoardController();
         final boardSize = squareSize * 8;
@@ -71,8 +70,7 @@ void main() {
         expect(
           dialogFinder,
           findsOneWidget,
-          reason:
-              'Promotion dialog must open when a pawn reaches the 8th rank '
+          reason: 'Promotion dialog must open when a pawn reaches the 8th rank '
               'via a tap sequence.',
         );
 
@@ -94,8 +92,7 @@ void main() {
         expect(
           sizedBoxesInDialog,
           findsWidgets,
-          reason:
-              'Promotion dialog must contain SizedBox widgets sized to '
+          reason: 'Promotion dialog must contain SizedBox widgets sized to '
               'squareSize=$squareSize (±0.5). Unfixed code hard-coded 60.',
         );
 

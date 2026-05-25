@@ -36,8 +36,7 @@ const List<int> _ranks = <int>[1, 2, 3, 4, 5, 6, 7, 8];
 /// Kept constant per test run so equality comparisons work.
 final Map<({PlayerColor color, chess.PieceType type}), ImageProvider>
     _staticPieceMap = () {
-  final map =
-      <({PlayerColor color, chess.PieceType type}), ImageProvider>{};
+  final map = <({PlayerColor color, chess.PieceType type}), ImageProvider>{};
   for (final color in PlayerColor.values) {
     for (final type in const <chess.PieceType>[
       chess.PieceType.PAWN,
@@ -102,8 +101,7 @@ extension ChessGenerators on Any {
       };
 
   /// `PlayerColor.white | PlayerColor.black`.
-  Generator<PlayerColor> get boardOrientation =>
-      any.choose(PlayerColor.values);
+  Generator<PlayerColor> get boardOrientation => any.choose(PlayerColor.values);
 
   /// Alias for [boardOrientation] kept for back-compat with existing tests.
   Generator<PlayerColor> get playerColor => boardOrientation;

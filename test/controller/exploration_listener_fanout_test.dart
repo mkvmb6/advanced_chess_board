@@ -43,8 +43,7 @@ void main() {
       expect(accepted, isTrue, reason: 'e2-e4 is a legal opening move');
 
       expect(counterA, 1,
-          reason:
-              'Listener A must fire exactly once — but on unfixed code it '
+          reason: 'Listener A must fire exactly once — but on unfixed code it '
               'never fires because addListener overwrote it with listener B.');
       expect(counterB, 1, reason: 'Listener B must fire exactly once.');
     });
@@ -53,8 +52,7 @@ void main() {
     // per successful mutation.
     Glados<int>(
       any.intInRange(2, 11), // 2..10 inclusive (upper bound is exclusive)
-    ).test('every listener fires exactly once for any n in [2, 10]',
-        (final n) {
+    ).test('every listener fires exactly once for any n in [2, 10]', (final n) {
       final controller = ChessBoardController();
       final counters = List<int>.filled(n, 0);
       for (var i = 0; i < n; i++) {

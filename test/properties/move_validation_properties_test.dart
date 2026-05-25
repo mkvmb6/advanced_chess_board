@@ -58,8 +58,7 @@ void main() {
           ft.expect(
             accepted,
             ft.isTrue,
-            reason:
-                'makeMove($from->$to'
+            reason: 'makeMove($from->$to'
                 '${needsPromotion ? ' =q' : ''}) must be accepted '
                 'when a verbose move has toAlgebraic == $to '
                 '(fen=$fen)',

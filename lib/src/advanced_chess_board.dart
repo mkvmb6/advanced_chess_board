@@ -284,8 +284,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   Widget build(final BuildContext context) {
     return LayoutBuilder(
       builder: (final BuildContext ctx, final BoxConstraints boxConstraints) {
-        final side =
-            min(boxConstraints.maxWidth, boxConstraints.maxHeight);
+        final side = min(boxConstraints.maxWidth, boxConstraints.maxHeight);
         final squareSize = side / 8;
 
         final child = switch (widget.coordinates) {
@@ -346,8 +345,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
               ),
             IgnorePointer(
               child: CustomPaint(
-                painter:
-                    ArrowPainter(widget.arrows, widget.boardOrientation),
+                painter: ArrowPainter(widget.arrows, widget.boardOrientation),
                 child: const SizedBox.expand(),
               ),
             ),
@@ -369,8 +367,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   }
 
   Widget _buildWithOutsideGutter(final double squareSize) {
-    final gutterSize =
-        max(kMinLabelFontSize * 2, squareSize * 0.36);
+    final gutterSize = max(kMinLabelFontSize * 2, squareSize * 0.36);
     final ranks = widget.boardOrientation == PlayerColor.white
         ? const <String>['8', '7', '6', '5', '4', '3', '2', '1']
         : const <String>['1', '2', '3', '4', '5', '6', '7', '8'];
@@ -467,8 +464,8 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
         movingPiece != null;
     _suppressNextAnimation = false;
 
-    final accepted = widget.controller
-        .makeMove(from: from, to: to, promotion: promotion);
+    final accepted =
+        widget.controller.makeMove(from: from, to: to, promotion: promotion);
 
     if (accepted) {
       // Classification and audio dispatch.
@@ -500,7 +497,9 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
 
   void _firePlay(final SoundEvent event) {
     try {
-      widget.soundPack.play(event).catchError((final Object err, final StackTrace st) {
+      widget.soundPack
+          .play(event)
+          .catchError((final Object err, final StackTrace st) {
         debugPrint('SoundPack.play($event) threw asynchronously: $err');
       });
     } catch (err) {
@@ -649,8 +648,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   bool _isLastMoveSquare(final String square) {
     if (_game.history.isEmpty) return false;
     final lastMove = _game.history.last.move;
-    return square == lastMove.fromAlgebraic ||
-        square == lastMove.toAlgebraic;
+    return square == lastMove.fromAlgebraic || square == lastMove.toAlgebraic;
   }
 
   Widget _buildPiece(
@@ -665,8 +663,8 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
     final feedbackSize = scaled < clamped ? scaled : clamped;
 
     // Hide the piece under the animating overlay so it doesn't appear twice.
-    final hiddenByAnimation = _animatingMove != null &&
-        square == _animatingMove!.from;
+    final hiddenByAnimation =
+        _animatingMove != null && square == _animatingMove!.from;
     if (hiddenByAnimation) {
       return const SizedBox.shrink();
     }
@@ -743,8 +741,7 @@ class _AdvancedChessBoardState extends State<AdvancedChessBoard> {
   void _setSelectedSquareAndFindLegalMoves(final String square) {
     _selectedSquare = square;
     _legalMoves = <String>{
-      for (final m
-          in _game.generate_moves(<String, String>{squareKey: square}))
+      for (final m in _game.generate_moves(<String, String>{squareKey: square}))
         m.toAlgebraic,
     };
   }

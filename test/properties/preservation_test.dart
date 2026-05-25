@@ -114,22 +114,78 @@ void main() {
         // Pick any source square that has at least one legal move, then pick
         // any destination that is NOT in its legal-destinations set.
         const squares = <String>[
-          'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8',
-          'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8',
-          'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8',
-          'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8',
-          'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8',
-          'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',
-          'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8',
-          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8',
+          'a1',
+          'a2',
+          'a3',
+          'a4',
+          'a5',
+          'a6',
+          'a7',
+          'a8',
+          'b1',
+          'b2',
+          'b3',
+          'b4',
+          'b5',
+          'b6',
+          'b7',
+          'b8',
+          'c1',
+          'c2',
+          'c3',
+          'c4',
+          'c5',
+          'c6',
+          'c7',
+          'c8',
+          'd1',
+          'd2',
+          'd3',
+          'd4',
+          'd5',
+          'd6',
+          'd7',
+          'd8',
+          'e1',
+          'e2',
+          'e3',
+          'e4',
+          'e5',
+          'e6',
+          'e7',
+          'e8',
+          'f1',
+          'f2',
+          'f3',
+          'f4',
+          'f5',
+          'f6',
+          'f7',
+          'f8',
+          'g1',
+          'g2',
+          'g3',
+          'g4',
+          'g5',
+          'g6',
+          'g7',
+          'g8',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'h7',
+          'h8',
         ];
 
         String? illegalFrom;
         String? illegalTo;
         for (final from in squares) {
           final dests = <String>{
-            for (final m in c.game
-                .generate_moves(<String, String>{'square': from}))
+            for (final m
+                in c.game.generate_moves(<String, String>{'square': from}))
               m.toAlgebraic,
           };
           if (dests.isEmpty) continue;
@@ -153,8 +209,7 @@ void main() {
         final accepted =
             c.makeMove(from: illegalFrom, to: illegalTo, notify: false);
         ft.expect(accepted, ft.isFalse,
-            reason:
-                'makeMove($illegalFrom -> $illegalTo) is not a legal move');
+            reason: 'makeMove($illegalFrom -> $illegalTo) is not a legal move');
         ft.expect(
           c.fen,
           before,
@@ -444,8 +499,7 @@ void main() {
         const expectedSide = 400.0 / 8;
         final tintSize = tester.getSize(tintFinder);
         ft.expect(tintSize.width, ft.closeTo(expectedSide, 0.5),
-            reason:
-                'checkmate tint must paint at full square width — '
+            reason: 'checkmate tint must paint at full square width — '
                 'requires Positioned.fill around the ColoredBox');
         ft.expect(tintSize.height, ft.closeTo(expectedSide, 0.5),
             reason: 'checkmate tint must paint at full square height');
@@ -480,8 +534,7 @@ void main() {
               body: SizedBox(
                 width: 400,
                 height: 400,
-                child:
-                    AdvancedChessBoard(controller: c, enableMoves: false),
+                child: AdvancedChessBoard(controller: c, enableMoves: false),
               ),
             ),
           ),

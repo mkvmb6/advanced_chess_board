@@ -46,8 +46,7 @@ void main() {
       expect((topics as YamlList).length, greaterThan(0),
           reason: '`topics` must contain at least one entry');
       for (final t in topics) {
-        expect(t, isA<String>(),
-            reason: 'every topic entry must be a string');
+        expect(t, isA<String>(), reason: 'every topic entry must be a string');
         expect((t as String).trim(), isNotEmpty,
             reason: 'topic entries must be non-empty strings');
       }

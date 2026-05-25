@@ -36,9 +36,11 @@ void main() {
         await tester.pumpAndSettle();
 
         // Find all CustomPaint widgets.
-        final customPaints = tester.widgetList<CustomPaint>(
-          find.byType(CustomPaint),
-        ).toList();
+        final customPaints = tester
+            .widgetList<CustomPaint>(
+              find.byType(CustomPaint),
+            )
+            .toList();
 
         // Find the ArrowPainter and HintArrowPainter CustomPaints.
         int arrowPainterIndex = -1;

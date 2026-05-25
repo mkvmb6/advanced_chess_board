@@ -49,9 +49,7 @@ void main() {
       );
       final moves = game.generate_moves();
       final castle = moves.firstWhere(
-        (final m) =>
-            m.fromAlgebraic == 'e1' &&
-            m.toAlgebraic == 'g1',
+        (final m) => m.fromAlgebraic == 'e1' && m.toAlgebraic == 'g1',
       );
       game.make_move(castle);
       final event = classifySoundEvent(

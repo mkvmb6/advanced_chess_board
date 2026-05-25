@@ -34,7 +34,8 @@ class _MyAppState extends State<MyApp> {
   PieceSet _pieceSet = PieceSet.chessDotCom;
   CoordinateLabels _coordinates = CoordinateLabels.inside;
   bool _useDebugSoundPack = false;
-  HintArrow? _hint;  @override
+  HintArrow? _hint;
+  @override
   void initState() {
     super.initState();
     controller.addListener(() {
@@ -166,7 +167,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-            ),            // Coordinate labels segmented button (Task 12.3).
+            ), // Coordinate labels segmented button (Task 12.3).
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(

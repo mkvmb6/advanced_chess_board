@@ -9,8 +9,8 @@ import 'package:chess/chess.dart' as chess;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Map<({PlayerColor color, chess.PieceType type}), ImageProvider>
-    _buildMap(final int seed) {
+Map<({PlayerColor color, chess.PieceType type}), ImageProvider> _buildMap(
+    final int seed) {
   // Use AssetImage from the package - these are always valid.
   // Different seeds use different piece images to ensure the sets are distinct.
   final paths = seed == 1
@@ -31,8 +31,7 @@ Map<({PlayerColor color, chess.PieceType type}), ImageProvider>
           chess.PieceType.KING: 'assets/pieces/bk.png',
         };
 
-  final map =
-      <({PlayerColor color, chess.PieceType type}), ImageProvider>{};
+  final map = <({PlayerColor color, chess.PieceType type}), ImageProvider>{};
   for (final color in PlayerColor.values) {
     for (final type in const <chess.PieceType>[
       chess.PieceType.PAWN,

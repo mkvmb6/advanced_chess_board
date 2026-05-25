@@ -95,8 +95,7 @@ void main() {
       expect(
         tester.binding.hasScheduledFrame,
         isFalse,
-        reason:
-            'Tap with enableMoves: false must not schedule a rebuild. '
+        reason: 'Tap with enableMoves: false must not schedule a rebuild. '
             '(Already honoured by unfixed code via early-return; the bug '
             'report §1.17 is imprecise about this but §2.17 preserves the '
             'behaviour.)',
@@ -130,8 +129,7 @@ void main() {
       expect(
         tester.binding.hasScheduledFrame,
         isFalse,
-        reason:
-            'Tap on an empty square with selectedSquare == null must not '
+        reason: 'Tap on an empty square with selectedSquare == null must not '
             'schedule a rebuild. Unfixed code calls setState at the end of '
             '_handleTap regardless, scheduling a useless rebuild frame.',
       );

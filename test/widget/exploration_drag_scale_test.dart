@@ -11,7 +11,7 @@
 //     fixed   feedback size = min(230, 208)       = 208 px  ✓
 //
 //   On a 200 px wide board (squareSize = 25):
-//     unfixed feedback size = 25 * 1.15 ≈ 28.75 px (overflows 33 ceiling  
+//     unfixed feedback size = 25 * 1.15 ≈ 28.75 px (overflows 33 ceiling
 //                                                    barely under on tiny
 //                                                    boards; but the general
 //                                                    guarantee is provided by
@@ -49,8 +49,7 @@ void main() {
         expect(
           size,
           lessThanOrEqualTo(squareSize + kMaxFeedbackOverflowPx),
-          reason:
-              'For squareSize=$squareSize, feedback=$size must be <= '
+          reason: 'For squareSize=$squareSize, feedback=$size must be <= '
               '${squareSize + kMaxFeedbackOverflowPx}. Unfixed code used '
               'an unconditional 1.15 scale which violates this on any '
               'squareSize > 8 / (1.15 - 1) ≈ 53.3 px.',

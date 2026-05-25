@@ -44,8 +44,7 @@ void main() {
       expect(
         newPainter.shouldRepaint(oldPainter),
         isTrue,
-        reason:
-            'Arrow list length changed 1 -> 2; canvas must repaint. '
+        reason: 'Arrow list length changed 1 -> 2; canvas must repaint. '
             'Unfixed code returns false because the branch is inverted.',
       );
     });
@@ -64,8 +63,7 @@ void main() {
       expect(
         newPainter.shouldRepaint(oldPainter),
         isTrue,
-        reason:
-            'Arrow endpoint changed a4 -> a5; canvas must repaint. '
+        reason: 'Arrow endpoint changed a4 -> a5; canvas must repaint. '
             'Unfixed code returns false because the per-element branch is '
             'inverted.',
       );

@@ -91,8 +91,7 @@ void main() {
             .widgetList<Text>(find.byType(Text))
             .where(
               (final t) =>
-                  t.data != null &&
-                  RegExp(r'^[1-8]$').hasMatch(t.data!),
+                  t.data != null && RegExp(r'^[1-8]$').hasMatch(t.data!),
             )
             .toList();
 

@@ -117,7 +117,8 @@ class _ChessDotComPieceSet extends PieceSet {
 
 class _MapBackedPieceSet extends PieceSet {
   const _MapBackedPieceSet(this._map)
-      : assert(_map.length == 12, 'PieceSet.fromAssetMap requires exactly 12 entries');
+      : assert(_map.length == 12,
+            'PieceSet.fromAssetMap requires exactly 12 entries');
 
   final Map<({PlayerColor color, chess.PieceType type}), ImageProvider> _map;
 

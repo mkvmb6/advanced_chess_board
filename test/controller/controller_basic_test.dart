@@ -116,7 +116,8 @@ void main() {
           returnsNormally,
           reason: 'Malformed FEN must be handled without throwing.',
         );
-        expect(c.fen, fenBefore, reason: 'Malformed FEN must not mutate state.');
+        expect(c.fen, fenBefore,
+            reason: 'Malformed FEN must not mutate state.');
 
         expect(() => c.loadGameFromFEN(''), returnsNormally);
         expect(c.fen, fenBefore);
